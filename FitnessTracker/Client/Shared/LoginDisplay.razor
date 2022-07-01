@@ -1,0 +1,82 @@
+﻿@using FitnessTracker.Client.Authentication
+@inject NavigationManager _navigationManager
+@inject IAuthenticationService _authService
+
+<div class="user-info">
+    <AuthorizeView>
+        <Authorizing>
+            <text>...</text>
+        </Authorizing>
+        <Authorized>
+            <img src="img/user.svg" />
+            <div>
+                <a class="username">@context.User.Identity.Name</a>
+                <button class="btn btn-link sign-out" @onclick="BeginSignOut">Sign out</button>
+            </div>
+        </Authorized>
+        <NotAuthorized>
+            <EditForm Context="formContext" Model="model" OnValidSubmit="ExecuteLogin" class="login-row">
+                <div class="form-row">
+                    <div class="col-auto">
+                        <label for="email" class="sr-only">Email:</label>
+                        <InputText id="email" class="form-control" @bind-Value="model.Email" placeholder="Email Address" />
+                    </div>
+
+                    <div class="col-auto">
+                        <label for="password" class="sr-only">Password:</label>
+                        <InputText type="password" id="password" class="form-control" @bind-Value="model.Password" placeholder="Password" />
+                    </div>
+
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-success"> Log In</button>
+                    </div>
+
+                    <div class="col-auto">
+                        <button type="button" class="btn btn-primary" @onclick="RegisterUser"> Register</button>
+                    </div>
+                </div>
+                @if (showAuthenticationError)
+                {
+                    <div class="form-row">
+                        <div class="text-danger">
+                            @authenticationErrorText
+                        </div>
+                    </div>
+                }
+            </EditForm>
+        </NotAuthorized>
+    </AuthorizeView>
+</div>
+
+
+@code
+{
+    private AuthenticatingUser model = new();
+    private bool showAuthenticationError = false;
+    private string authenticationErrorText = String.Empty;
+
+    private void BeginSignOut()
+    {
+        _navigationManager.NavigateTo("/logout");
+    }
+
+    private void RegisterUser()
+    {
+        _navigationManager.NavigateTo("/register");
+    }
+    private async Task ExecuteLogin()
+    {
+        showAuthenticationError = false;
+
+        var result = await _authService.Login(model);
+        if (result is not null)
+        {
+            _navigationManager.NavigateTo("/");
+        }
+        else
+        {
+            authenticationErrorText = "There was an error when trying to log in.";
+            showAuthenticationError = true;
+        }
+    }
+}

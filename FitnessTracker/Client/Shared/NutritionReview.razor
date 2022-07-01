@@ -1,0 +1,43 @@
+﻿@foreach (var meal in TrainingDay.Meals)
+{
+    <p>
+        <strong>
+            @meal.Food.Title
+            Grams: @meal.Food.WeightGrams
+        </strong>
+    </p>
+
+    <span>Selected product nutrition values </span>
+    <ul>
+        <li>Calories Per 100G: @meal.Food.CaloriesPer100</li>
+        <li>Carbohydrates Per 100G: @meal.Food.CarbsPer100</li>
+        <li>Protein Per 100G: @meal.Food.ProteinPer100</li>
+        <li>Fats Per 100G: @meal.Food.FatsPer100</li>
+    </ul>
+
+    <span>Your body consumed</span>
+    <ul>
+        <li>Calories: @meal.Food.CalculateCalories()</li>
+        <li>Carbohydrates: @meal.Food.CalculateCarbs()</li>
+        <li>Protein: @meal.Food.CalculateProtein()</li>
+        <li>Fats: @meal.Food.CalculateFats()</li>
+    </ul>
+}
+<p>
+    <strong>
+        Overall Calories per Day: @TrainingDay.GetMealsTotalCalories()
+    </strong>
+    <strong>
+        Overall Carbohydrates per Day: @TrainingDay.GetMealsTotalCarbs()
+    </strong>
+    <strong>
+        Overall Protein per Day: @TrainingDay.GetMealsTotalProtein()
+    </strong>
+    <strong>
+        Overall Fats per Day: @TrainingDay.GetMealsTotalFats()
+    </strong>
+</p>
+
+@code {
+    [Parameter] public TrainingDay TrainingDay { get; set; }
+}

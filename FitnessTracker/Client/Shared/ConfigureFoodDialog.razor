@@ -1,0 +1,38 @@
+﻿<div class="dialog-container">
+    <div class="dialog">
+        <div class="dialog-title">
+            <h2>@Meal.Food.Title</h2>
+        </div>
+        <form class="dialog-body">
+            <div>
+                <label>Quantity:</label>
+                <EditForm Model="Meal">
+                    <div class="form-group">
+                        <InputNumber id="quantity" @bind-Value="Meal.Food.Quantity" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <InputNumber id="weight" @bind-Value="Meal.Food.WeightGrams" class="form-control" />
+                    </div>
+                </EditForm>
+                <span class="size-label">
+                    Protein: <span class="price">@(Meal.Food.CalculateProtein())</span>
+                    Carbs: <span class="price">@(Meal.Food.CalculateCarbs())</span>
+                    Fats: <span class="price">@(Meal.Food.CalculateFats())</span>
+                </span>
+            </div>
+        </form>
+
+        <div class="dialog-buttons">
+            <button class="btn btn-secondary mr-auto" @onclick="OnCancel">Cancel</button>
+            <span class="mr-center">
+                Calories: <span class="price">@(Meal.Food.CalculateCalories())</span>
+            </span>
+            <button class="btn btn-success ml-auto" @onclick="OnConfirm">Order ></button>
+        </div>
+    </div>
+</div>
+@code {
+    [Parameter] public Meal Meal { get; set; }
+    [Parameter] public EventCallback OnCancel { get; set; }
+    [Parameter] public EventCallback OnConfirm { get; set; }
+}

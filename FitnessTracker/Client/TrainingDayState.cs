@@ -43,7 +43,7 @@ namespace FitnessTracker.Client
             ConfiguringMeal = null;
             ShowingMealDialog = false;
         }
-        public void ConfirmConfigureProductDialog()
+        public void ConfirmConfigureTrainingSessionDialog()
         {
             TrainingDay.Trainings.Add(ConfiguringTrainingSession);
             TrainingDay = null;

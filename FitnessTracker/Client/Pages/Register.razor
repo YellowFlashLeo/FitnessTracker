@@ -1,0 +1,156 @@
+﻿@page "/register"
+
+@inject IAuthenticationService _authenticationService
+@inject NavigationManager _navigationManager
+@inject ToastService _toastService
+
+<div class="main">
+    <div class="track-order">
+        <div class="track-order-title">
+            <h3>Create an Account</h3>
+        </div>
+        <div class="track-order-body">
+            <EditForm Model="@Model" OnValidSubmit="@OnValidSubmit">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <div class="form-group row">
+                    <label for="first-name" class="col-md-2 col-form-label">First Name:</label>
+                    <div class="col-md-10">
+                        <InputText id="first-name" class="form-control" @bind-Value="Model.FirstName" />
+                        <ValidationMessage For="@(() =>Model.FirstName)" />
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="last-name" class="col-md-2 col-form-label">Last Name:</label>
+                    <div class="col-md-10">
+                        <InputText id="last-name" class="form-control" @bind-Value="Model.LastName" />
+                        <ValidationMessage For="@(() =>Model.LastName)" />
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="nationality" class="col-md-2 col-form-label">Nationality:</label>
+                    <div class="col-md-10">
+                        <InputText id="nationality" class="form-control" @bind-Value="Model.Nationality" />
+                        <ValidationMessage For="@(() => Model.Nationality)" />
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="age" class="col-md-2 col-form-label">Age:</label>
+                    <div class="col-md-10">
+                        <input id="age" class="form-control" @bind="Model.Age" />
+                        <ValidationMessage For="@(() =>Model.Age)" />
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="email" class="col-md-2 col-form-label">Email Address:</label>
+                    <div class="col-md-10">
+                        <InputText id="email" class="form-control" @bind-Value="Model.EmailAddress" />
+                        <ValidationMessage For="@(() =>Model.EmailAddress)" />
+                    </div>
+                </div>
+
+                <div class="mb-3">
+
+                </div>
+                <div class="form-group row">
+                    <label for="gender" class="col-md-2 col-form-label">Gender:</label>
+                    <div class="col-md-10">
+                        <InputRadioGroup id="gender" @bind-Value="Model.GenderId">
+                            @foreach (var item in Genders)
+                            {
+                                <div class="form-check form-check-inline">
+                                    <InputRadio class="form-check-input" Value="item.Id" />
+                                    <label class="form-check-label">@item.Name</label>
+                                </div>
+                            }
+                        </InputRadioGroup>
+                        <ValidationMessage For="@(() => Model.GenderId)" />
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <label for="password" class="col-md-2 col-form-label">Password:</label>
+                    <div class="col-md-10">
+                        <InputText type="password" id="password" class="form-control" @bind-Value="Model.Password" />
+                        <ValidationMessage For="@(() =>Model.Password)" />
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="confirm-password" class="col-md-2 col-form-label">Confirm Password:</label>
+                    <div class="col-md-10">
+                        <InputText type="password" id="confirm-password" class="form-control" @bind-Value="Model.ConfirmPassword" />
+                        <ValidationMessage For="@(() =>Model.ConfirmPassword)" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 text-right">
+                        <button type="submit" class="btn btn-success">Create Account</button>
+                    </div>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+</div>
+
+
+@if (string.IsNullOrWhiteSpace(errorMessage) == false)
+{
+    <div class="alert alert-danger" role="alert">
+        @errorMessage
+    </div>
+}
+
+
+@code {
+    readonly UserModel Model = new();
+    string errorMessage;
+    List<Gender> Genders = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Genders = await _authenticationService.GetGenders();
+    }
+
+    private async Task OnValidSubmit()
+    {
+        errorMessage = "";
+
+        try
+        {
+            var registered = await _authenticationService.RegisterUser(Model);
+            if (registered)
+            {
+                _toastService.ShowToast("Registration was successful!", ToastLevel.Success);
+
+                var result = await _authenticationService.Login(new() { Email = Model.EmailAddress, Password = Model.Password });
+                if (result is not null)
+                {
+                    _navigationManager.NavigateTo("/");
+                }
+                else
+                {
+                    _toastService.ShowToast("Something went wrong, please try again", ToastLevel.Error);
+                    errorMessage = "Registration worked but there was an error when trying to log in.";
+                }
+            }
+            else
+            {
+                _toastService.ShowToast("Oops, something went wrong!", ToastLevel.Error);
+            }
+
+
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+        }
+    }
+}

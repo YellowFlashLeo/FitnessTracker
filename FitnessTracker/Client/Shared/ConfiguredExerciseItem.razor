@@ -1,0 +1,15 @@
+﻿<div class="cart-item">
+    <a @onclick="OnRemoved" class="delete-item">x</a>
+    <div class="title">Overall RPE:@(TrainingExercise.Exercise.RPE)"</div>
+    <div class="title">Weight:@(TrainingExercise.Exercise.Weight)"</div>
+    <div class="title">Sets:@(TrainingExercise.Exercise.Sets)"</div>
+    <div class="title">Reps in each set:@(TrainingExercise.Exercise.Reps)"</div>
+    <div class="item-price">
+        @TrainingExercise.Exercise.Name
+    </div>
+</div>
+
+@code {
+    [Parameter] public TrainingExercise TrainingExercise { get; set; }
+    [Parameter] public EventCallback OnRemoved { get; set; }
+}

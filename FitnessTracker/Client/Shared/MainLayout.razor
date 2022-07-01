@@ -1,17 +1,34 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
+<div class="top-bar">
+    <div style="display: flex;">
+        <a class="logo" href="">
+            <img src="img/logo.jpg" />
+        </a>
+        <NavLink href="" class="nav-tab" Match="NavLinkMatch.All">
+            <img src="img/gymLogo.jpg" />
+            <div>Save Training</div>
+        </NavLink>
+        
+        <AuthorizeView>
+            <NavLink href="myorders" class="nav-tab">
+                <img src="img/trainings.png" />
+                <div>My Trainings</div>
+            </NavLink>
+            <NavLink href="admin" class="nav-tab">
+                <img src="img/admin.svg" />
+                <div>Admin Panel</div>
+            </NavLink>
+            <NavLink href="analytics" class="nav-tab">
+                <img src="img/analytics.png" />
+                <div>Monthly Result</div>
+            </NavLink>
+        </AuthorizeView>
     </div>
-
-    <div class="main">
-        <div class="top-row px-4">
-            <a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>
-        </div>
-
-        <div class="content px-4">
-            @Body
-        </div>
-    </div>
+    <LoginDisplay/>
+</div>
+<ToastBase></ToastBase>
+<div class="content">
+    @Body
+    
 </div>

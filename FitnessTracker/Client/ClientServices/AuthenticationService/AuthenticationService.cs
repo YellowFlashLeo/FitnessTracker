@@ -38,7 +38,7 @@ namespace FitnessTracker.Client.ClientServices.AuthenticationService
         {
             var data = new { model.FirstName, model.LastName, model.EmailAddress, model.Password, model.Nationality, model.GenderId, model.Age };
 
-            using (HttpResponseMessage response = await _httpClient.PostAsJsonAsync("api/Identity/Register", data))
+            using (HttpResponseMessage response = await _httpClient.PostAsJsonAsync("/Register", data))
             {
                 if (response.IsSuccessStatusCode == false)
                 {
@@ -54,7 +54,7 @@ namespace FitnessTracker.Client.ClientServices.AuthenticationService
             string inputJson = JsonConvert.SerializeObject(userToBeAuthenticated);
             HttpContent inputContent = new StringContent(inputJson, Encoding.UTF8, "application/json");
 
-            using (var authResult = await _httpClient.PostAsync($"api/Identity/token", inputContent))
+            using (var authResult = await _httpClient.PostAsync($"/token", inputContent))
             {
                 if (authResult.IsSuccessStatusCode == false)
                 {

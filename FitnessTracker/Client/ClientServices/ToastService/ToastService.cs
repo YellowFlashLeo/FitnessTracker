@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Timers;
-using Blazored.Toast.Services;
-
+using FitnessTracker.Shared;
 namespace FitnessTracker.Client.ClientServices.ToastService
 {
     public class ToastService : IDisposable

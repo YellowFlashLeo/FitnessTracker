@@ -1,0 +1,35 @@
+﻿@page "/meals"
+@inject INutritionService NutritionService
+@inject NavigationManager NavigationManager
+
+<div class="main">
+    <ul class="pizza-cards">
+        @if (foodTypes != null)
+        {
+            @foreach (var foodType in foodTypes)
+            {
+                <li @onclick="@(()=> NavigateToProducts(foodType.Name))" style="background-image: url('@foodType.ImageUrl')">
+                    <div class="pizza-info">
+                        <span class="title">@foodType.Name</span>
+                    </div>
+                </li>
+            }
+        }
+    </ul>
+</div>
+
+
+@code {
+    List<FoodType> foodTypes = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        foodTypes = await NutritionService.GetFoodTypes();
+    }
+
+    private void NavigateToProducts(string foodTypeUrl)
+    {
+        NavigationManager.NavigateTo($"/foodType/{foodTypeUrl}");
+    }
+
+}

@@ -1,0 +1,58 @@
+﻿@page "/trainingDaysArchive"
+@inject IMonthlyStatisticsService MonthlyStatisticsService
+
+
+<div class="main">
+    @if (trainingDays == null)
+    {
+        <text>Loading...</text>
+    }
+    else if (!trainingDays.Any())
+    {
+        <h2>No orders placed</h2>
+        <a class="btn btn-success" href="">Probably, you forgot to save your training</a>
+    }
+    else
+    {
+        <div class="list-group orders-list">
+            @foreach (var item in trainingDays)
+            {
+                <div class="list-group-item">
+                    <div class="col">
+                        <h5>@item.Trained.ToLongDateString()</h5>
+                        Muscle Group:
+                        <strong>@item.Trainings.FirstOrDefault()?.Exercise.BodyPart.Name</strong>;
+                        @foreach (var exercise in item.Trainings)
+                        {
+                            <div class="col">
+                                Weight:
+                                <strong>@exercise.Exercise.Weight kg</strong>
+                                Sets:
+                                <strong>@exercise.Exercise.Sets</strong>
+                                Reps:
+                                <strong>@exercise.Exercise.Reps</strong>
+                            </div>
+                        }
+                    </div>
+                    <div class="col">
+                        Calories: <strong>@item.GetMealsTotalCalories()</strong>
+                    </div>
+                    <div class="col flex-grow-0">
+                        Carbohydrates: <strong>@item.GetMealsTotalCarbs()</strong>
+                        Protein: <strong>@item.GetMealsTotalProtein()</strong>
+                        Fats: <strong>@item.GetMealsTotalFats()</strong>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    List<TrainingDay> trainingDays;
+
+    protected override async Task OnInitializedAsync()
+    {
+        trainingDays = await MonthlyStatisticsService.GetAllTrainingDays();
+    }
+}

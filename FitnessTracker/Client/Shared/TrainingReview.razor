@@ -1,0 +1,20 @@
+﻿@foreach (var training in TrainingDay.Trainings)
+{
+    <p>
+        <strong>
+            @training.Exercise.Name
+        </strong>
+    </p>
+
+    <ul>
+        <li>Weight: @training.Exercise.Weight</li>
+        <li>Sets: @training.Exercise.Sets</li>
+        <li>Reps: @training.Exercise.Reps</li>
+        <li>RPE: @training.Exercise.RPE</li>
+    </ul>
+}
+
+
+@code {
+    [Parameter] public TrainingDay TrainingDay { get; set; }
+}

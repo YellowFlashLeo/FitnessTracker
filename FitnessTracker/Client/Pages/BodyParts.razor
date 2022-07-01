@@ -1,0 +1,69 @@
+﻿@page "/bodyPart/{bodyPartUrl}"
+@inject IBodyPartService BodyPartService
+@inject TrainingDayState TrainingDayState
+@inject NavigationManager NavigationManager
+
+<div class="main">
+    <ul class="pizza-cards">
+        @if (exercises != null)
+        {
+            @foreach (var exercise in exercises)
+            {
+                <li @onclick="@(()=> TrainingDayState.ShowConfigureTrainingSessionDialog(exercise))" style="background-image: url('@exercise.ImageUrl')">
+                    <div class="pizza-info">
+                        <span class="title">@exercise.Name</span>
+                    </div>
+                </li>
+            }
+        }
+    </ul>
+</div>
+
+<div class="sidebar">
+    @if (TrainingDayState.TrainingDay.Meals.Any() || TrainingDayState.TrainingDay.Trainings.Any())
+    {
+        <div class="order-contents">
+            <h2>Your days statistics</h2>
+
+            @foreach (var configuredTrainingExercise in TrainingDayState.TrainingDay.Trainings)
+            {
+                <ConfiguredExerciseItem TrainingExercise="configuredTrainingExercise" OnRemoved="@(() => TrainingDayState.RemoveConfiguringTrainingSession(configuredTrainingExercise))" />
+            }
+
+            @foreach (var configuredMeal in TrainingDayState.TrainingDay.Meals)
+            {
+                <ConfiguredFoodDialog  Meal="configuredMeal" OnRemoved="@(() => TrainingDayState.RemoveConfiguringMeal(configuredMeal))" />
+            }
+        </div>
+    }
+    else
+    {
+        <div class="empty-cart">Get your ass to the gym!<br>to get started</div>
+    }
+
+    <div class="order-total @(TrainingDayState.TrainingDay.Trainings.Any() || TrainingDayState.TrainingDay.Meals.Any() ? "" : "hidden")">
+        Total Reps:
+        <span class="total-price">@TrainingDayState.TrainingDay.GetTrainingsOverallReps()</span>
+        <a href="meals" class="@(TrainingDayState.TrainingDay.Trainings.Count == 0 && TrainingDayState.TrainingDay.Meals.Count == 0 ? "btn btn-warning disabled" : "btn btn-warning")">
+            Record Meals >
+        </a>
+    </div>
+</div>
+
+
+@if (TrainingDayState.ShowingConfigureDialog)
+{
+    <ConfigureExerciseDialog TrainingExercise="TrainingDayState.ConfiguringTrainingSession"
+                            OnCancel="TrainingDayState.CancelConfigureTrainingSession"
+                            OnConfirm="TrainingDayState.ConfirmConfigureTrainingSessionDialog" />
+}
+
+@code {
+    [Parameter] public string BodyPartUrl { get; set; }
+    List<Exercise> exercises;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        exercises = await BodyPartService.GetExercises(BodyPartUrl);
+    }
+}
