@@ -15,6 +15,7 @@ form {
     width: 100%;
 }
 
+
 .form-group.row > .col-form-label {
     text-align: right;
 }
@@ -322,7 +323,7 @@ footer {
 }
 
     .pizza-cards > li {
-        height: 10rem;
+        height: 15rem;
         position: relative;
         background-size: cover;
         border-radius: 0.5rem;
@@ -373,7 +374,6 @@ footer {
     }
 
 .price::before {
-    content: '£';
     font-weight: 300;
     font-size: 1.2rem;
     margin-right: 0.2rem;
@@ -700,8 +700,7 @@ footer {
     }
 
 .track-order-body {
-    flex-grow: 1;
-    display: flex;
+    flex-grow: 3;
 }
 
 .track-order-details {

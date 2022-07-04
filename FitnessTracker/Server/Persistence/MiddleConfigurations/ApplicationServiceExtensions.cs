@@ -1,6 +1,8 @@
-﻿using FitnessTracker.Server.Persistence.DataBase;
+﻿using FitnessTracker.Server.Persistence.Services.NutritionService;
+using FitnessTracker.Server.Persistence.DataBase;
 using FitnessTracker.Server.Persistence.Services.BodyPartService.cs;
 using FitnessTracker.Server.Persistence.Services.IdentityService;
+using FitnessTracker.Server.Persistence.Services.MonthlyStatistics;
 using FitnessTracker.Server.Persistence.Services.TrainingDayService;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -21,6 +23,8 @@ namespace FitnessTracker.Server.Persistence.MiddleConfigurations
             services.AddScoped<IIdentityService, IdentityService>();
             services.AddScoped<IBodyPartService, BodyPartService>();
             services.AddScoped<ITrainingDayService, TrainingDayService>();
+            services.AddScoped<INutritionService, NutritionService>();
+            services.AddScoped<IMonthlyStatistics, MonthlyStatistics>();
 
             return services;
         }

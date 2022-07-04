@@ -43,9 +43,9 @@
 
     <div class="order-total @(TrainingDayState.TrainingDay.Trainings.Any() || TrainingDayState.TrainingDay.Meals.Any() ? "" : "hidden")">
         Total Reps:
-        <span class="total-price">@TrainingDayState.TrainingDay.GetTrainingsOverallReps()</span>
+        <span>@TrainingDayState.TrainingDay.GetTrainingsOverallReps()</span>
         <a href="meals" class="@(TrainingDayState.TrainingDay.Trainings.Count == 0 && TrainingDayState.TrainingDay.Meals.Count == 0 ? "btn btn-warning disabled" : "btn btn-warning")">
-            Record Meals >
+            Save Training >
         </a>
     </div>
 </div>

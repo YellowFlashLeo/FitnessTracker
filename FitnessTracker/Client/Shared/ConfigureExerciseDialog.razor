@@ -1,33 +1,51 @@
 ﻿<div class="dialog-container">
-<div class="dialog">
-    <div class="dialog-title">
-        <h2>@TrainingExercise.Exercise.Name</h2>
-    </div>
-    <form class="dialog-body">
-        <div>
-            <label>Quantity:</label>
-            <EditForm Model="TrainingExercise">
-                <div class="form-group">
-                    <InputNumber id="reps" @bind-Value="TrainingExercise.Exercise.Reps" class="form-control" />
-                </div>
-                <div class="form-group">
-                    <InputNumber id="sets" @bind-Value="TrainingExercise.Exercise.Sets" class="form-control" />
-                </div>
-                <div class="form-group">
-                    <InputNumber id="weight" @bind-Value="TrainingExercise.Exercise.Weight" class="form-control" />
-                </div>
-                <div class="form-group">
-                    <InputNumber id="rpe" @bind-Value="TrainingExercise.Exercise.RPE" class="form-control" />
-                </div>
-            </EditForm>
+    <div class="dialog">
+        <div class="dialog-title">
+            <h2>@TrainingExercise.Exercise.Name</h2>
         </div>
-    </form>
+        <div class="track-order-body">
+            <div>
+                <EditForm Model="TrainingExercise">
+                    <div class="LeoCustom">
+                        <label for="reps" class="col-md-2 col-form-label">Reps:</label>
+                        <div class="col-md-10">
+                            <InputNumber id="reps" @bind-Value="TrainingExercise.Exercise.Reps" />
+                        </div>
+                    </div>
+                    <div class="LeoCustom">
+                        <label for="sets" class="col-md-2 col-form-label">Sets:</label>
+                        <div class="col-md-10">
+                            <InputNumber id="sets" @bind-Value="TrainingExercise.Exercise.Sets" />
+                        </div>
+                    </div>
+                    <div class="LeoCustom">
+                        <label for="weight" class="col-md-2 col-form-label">Weight(kg):</label>
+                        <div class="col-md-10">
+                            <InputNumber id="weight" @bind-Value="TrainingExercise.Exercise.Weight" />
+                        </div>
+                    </div>
+                    <div class="LeoCustom">
+                        <label for="rpe" class="col-md-2 col-form-label">RPE:</label>
+                        <div class="col-md-10">
+                            <InputNumber id="rpe" @bind-Value="TrainingExercise.Exercise.RPE" />
+                        </div>
+                    </div>
+                </EditForm>
+                <style>
+                    .LeoCustom {
+                        margin-bottom: 1rem;
+                        display: inline-block;
+                        flex-wrap: wrap;
+                    }
+                </style>
+            </div>
+        </div>
 
-    <div class="dialog-buttons">
-        <button class="btn btn-secondary mr-auto" @onclick="OnCancel">Cancel</button>
-        <button class="btn btn-success ml-auto" @onclick="OnConfirm">Order ></button>
+        <div class="dialog-buttons">
+            <button class="btn btn-secondary mr-auto" @onclick="OnCancel">Cancel</button>
+            <button class="btn btn-success ml-auto" @onclick="OnConfirm">Save ></button>
+        </div>
     </div>
-</div>
 </div>
 
 @code {

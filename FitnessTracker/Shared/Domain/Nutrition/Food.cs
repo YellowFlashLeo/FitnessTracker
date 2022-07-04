@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FitnessTracker.Shared.Domain.Nutrition
@@ -19,32 +20,38 @@ namespace FitnessTracker.Shared.Domain.Nutrition
         public float CarbsPer100 { get; set; }
         public float ProteinPer100 { get; set; }
 
-        public float CalculateCalories()
+
+        private double RoundUp(float input, int places)
+        {
+            double multiplier = Math.Pow(10, Convert.ToDouble(places));
+            return Math.Ceiling(input * multiplier) / multiplier;
+        }
+        public double CalculateCalories()
         {
             var caloriesPerGram = CaloriesPer100 / 100;
             var calories = WeightGrams * caloriesPerGram * Quantity;
-            return calories;
+            return RoundUp(calories,2);
         }
 
-        public float CalculateFats()
+        public double CalculateFats()
         {
             var fatsPerGram = FatsPer100 / 100;
             var fats = WeightGrams * fatsPerGram * Quantity;
-            return fats;
+            return RoundUp(fats,2);
         }
 
-        public float CalculateProtein()
+        public double CalculateProtein()
         {
             var proteinPerGram = ProteinPer100 / 100;
             var protein = WeightGrams * proteinPerGram * Quantity;
-            return protein;
+            return RoundUp(protein,2);
         }
 
-        public float CalculateCarbs()
+        public double CalculateCarbs()
         {
             var carbsPerGram = CarbsPer100 / 100;
             var carbs = WeightGrams * carbsPerGram * Quantity;
-            return carbs;
+            return RoundUp(carbs,2);
         }
     }
 }

@@ -46,7 +46,7 @@ namespace FitnessTracker.Client
         public void ConfirmConfigureTrainingSessionDialog()
         {
             TrainingDay.Trainings.Add(ConfiguringTrainingSession);
-            TrainingDay = null;
+            ConfiguringTrainingSession = null;
 
             ShowingConfigureDialog = false;
         }

@@ -5,15 +5,27 @@
         </div>
         <form class="dialog-body">
             <div>
-                <label>Quantity:</label>
                 <EditForm Model="Meal">
-                    <div class="form-group">
-                        <InputNumber id="quantity" @bind-Value="Meal.Food.Quantity" class="form-control" />
+                    <div class="LeoCustom">
+                        <label for="reps" class="col-md-2 col-form-label">Quantity:</label>
+                        <div class="col-md-10">
+                            <InputNumber id="reps" @bind-Value="Meal.Food.Quantity" />
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <InputNumber id="weight" @bind-Value="Meal.Food.WeightGrams" class="form-control" />
+                    <div class="LeoCustom">
+                        <label for="sets" class="col-md-2 col-form-label">Weight(grams):</label>
+                        <div class="col-md-10">
+                            <InputNumber id="sets" @bind-Value="Meal.Food.WeightGrams" />
+                        </div>
                     </div>
                 </EditForm>
+                <style>
+                    .LeoCustom {
+                        margin-bottom: 1rem;
+                        display: inline-block;
+                        flex-wrap: wrap;
+                    }
+                </style>
                 <span class="size-label">
                     Protein: <span class="price">@(Meal.Food.CalculateProtein())</span>
                     Carbs: <span class="price">@(Meal.Food.CalculateCarbs())</span>
@@ -25,9 +37,9 @@
         <div class="dialog-buttons">
             <button class="btn btn-secondary mr-auto" @onclick="OnCancel">Cancel</button>
             <span class="mr-center">
-                Calories: <span class="price">@(Meal.Food.CalculateCalories())</span>
+                Calories: @(Meal.Food.CalculateCalories())
             </span>
-            <button class="btn btn-success ml-auto" @onclick="OnConfirm">Order ></button>
+            <button class="btn btn-success ml-auto" @onclick="OnConfirm">Save ></button>
         </div>
     </div>
 </div>
