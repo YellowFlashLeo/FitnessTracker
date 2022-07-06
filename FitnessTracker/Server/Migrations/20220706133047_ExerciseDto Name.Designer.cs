@@ -4,14 +4,16 @@ using FitnessTracker.Server.Persistence.DataBase;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FitnessTracker.Server.Migrations
 {
     [DbContext(typeof(FitnessStoreContext))]
-    partial class FitnessStoreContextModelSnapshot : ModelSnapshot
+    [Migration("20220706133047_ExerciseDto Name")]
+    partial class ExerciseDtoName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

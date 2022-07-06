@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using FitnessTracker.Server.Persistence.Services.TrainingDayService;
 using FitnessTracker.Shared;
+using FitnessTracker.Shared.Domain;
 using FitnessTracker.Shared.Domain.Fitness;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,14 +21,14 @@ namespace FitnessTracker.Server.API
         }
 
         [HttpGet]
-        public async Task<ActionResult<ServiceResponse<List<TrainingDay>>>> GetTrainingDays()
+        public async Task<ActionResult<ServiceResponse<List<TrainingDayDto>>>> GetTrainingDays()
         {
             var result = await _trainingDayService.GetAllTrainingDays(GetCurrentUserId());
             return Ok(result);
         }
 
         [HttpGet("{trainingDayId}")]
-        public async Task<ActionResult<ServiceResponse<TrainingDay>>> GetTrainingDay(int trainingDayId)
+        public async Task<ActionResult<ServiceResponse<TrainingDayDto>>> GetTrainingDay(int trainingDayId)
         {
             var result = await _trainingDayService.GetTrainingDay(GetCurrentUserId(), trainingDayId);
             return Ok(result.Data);

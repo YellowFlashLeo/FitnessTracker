@@ -21,7 +21,6 @@ namespace FitnessTracker.Client.ClientServices.SaveToServerService
         {
             await _localStorage.SetItemAsync("trainingDay", trainingDay);
             var result = await _httpClient.PostAsJsonAsync("api/TrainingDay", trainingDay);
-            result.EnsureSuccessStatusCode();
 
             var newTrainingDayId = await result.Content.ReadFromJsonAsync<int>();
             return newTrainingDayId;

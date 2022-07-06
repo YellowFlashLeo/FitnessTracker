@@ -1,4 +1,5 @@
 ﻿@page "/trainingDaysArchive"
+@using FitnessTracker.Shared.Domain
 @inject IMonthlyStatisticsService MonthlyStatisticsService
 
 
@@ -21,16 +22,18 @@
                     <div class="col">
                         <h5>@item.Trained.ToLongDateString()</h5>
                         Muscle Group:
-                        <strong>@item.Trainings.FirstOrDefault()?.Exercise.BodyPart.Name</strong>;
-                        @foreach (var exercise in item.Trainings)
+                        <strong>@item.Exercise.FirstOrDefault()?.MuscleGroup</strong>;
+                        @foreach (var exercise in item.Exercise)
                         {
                             <div class="col">
+                                Exercise:
+                                <strong>@exercise.Name</strong>
                                 Weight:
-                                <strong>@exercise.Exercise.Weight kg</strong>
+                                <strong>@exercise.Weight kg</strong>
                                 Sets:
-                                <strong>@exercise.Exercise.Sets</strong>
+                                <strong>@exercise.Sets</strong>
                                 Reps:
-                                <strong>@exercise.Exercise.Reps</strong>
+                                <strong>@exercise.Reps</strong>
                             </div>
                         }
                     </div>
@@ -49,7 +52,7 @@
 </div>
 
 @code {
-    List<TrainingDay> trainingDays;
+    List<TrainingDayDto> trainingDays;
 
     protected override async Task OnInitializedAsync()
     {
