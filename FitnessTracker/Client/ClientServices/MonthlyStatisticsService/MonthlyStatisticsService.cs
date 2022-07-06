@@ -18,7 +18,7 @@ namespace FitnessTracker.Client.ClientServices.MonthlyStatisticsService
 
         public async Task<List<TrainingDay>> GetAllTrainingDays()
         {
-            var result = await _httpClient.GetFromJsonAsync<ServiceResponse<List<TrainingDay>>>("api/TrainingDay");
+            var result = await _httpClient.GetFromJsonAsync<ServiceResponse<List<TrainingDay>>>("api/TrainingDay/");
 
             return result?.Data;
         }

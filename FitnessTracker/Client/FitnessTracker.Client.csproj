@@ -147,6 +147,12 @@
     <Content Update="wwwroot\img\chest\LowCableFly.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="wwwroot\img\dairy\BlueCheese.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\img\dairy\Chedder.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="wwwroot\img\delts\ArnoldPress.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -169,12 +175,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="wwwroot\img\delts\StandingLateralRaises.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="wwwroot\img\dairy\BlueCheese.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="wwwroot\img\dairy\Chedder.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="wwwroot\img\dairy\CottageCheese.png">
@@ -243,7 +243,7 @@
     <Content Update="wwwroot\img\fruits\Avocado.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="wwwroot\img\fruits\Bananna.jpg">
+    <Content Update="wwwroot\img\fruits\Banana.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="wwwroot\img\fruits\Coconut.jpg">
@@ -288,16 +288,16 @@
     <Content Update="wwwroot\img\garnish\JasmineRice.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="wwwroot\img\garnish\MashedPotato.jpg">
+    <Content Update="wwwroot\img\garnish\mashedPotato.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="wwwroot\img\garnish\Pasta.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="wwwroot\img\garnish\PotatoWages.jpg">
+    <Content Update="wwwroot\img\garnish\PotatoWegdes.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="wwwroot\img\garnish\Qinoa.jpg">
+    <Content Update="wwwroot\img\garnish\Qinoa.jpeg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="wwwroot\img\garnish\SweetPotato.jpg">

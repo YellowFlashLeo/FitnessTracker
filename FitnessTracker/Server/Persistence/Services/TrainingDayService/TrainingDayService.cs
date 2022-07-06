@@ -53,20 +53,30 @@ namespace FitnessTracker.Server.Persistence.Services.TrainingDayService
             day.Trained = DateTime.Now;
             day.UserId = userId;
 
-            foreach (var trainingSession in day.Trainings)
-            {
-                trainingSession.ExerciseId = trainingSession.Exercise.Id;
-                trainingSession.Exercise = null;
-            }
+            //foreach (var trainingSession in day.Trainings)
+            //{
+            //    trainingSession.ExerciseId = trainingSession.Exercise.Id;
+            //    trainingSession.Exercise = await _dbContext.Exercises.SingleOrDefaultAsync(p => p.Id.Equals(trainingSession.Exercise.Id)) ??
+            //                               trainingSession.Exercise;
+            //}
 
-            foreach (var dayMeal in day.Meals)
-            {
-                dayMeal.FoodId = dayMeal.Food.Id;
-                dayMeal.Food = null;
-            }
+            //foreach (var dayMeal in day.Meals)
+            //{
+            //    dayMeal.FoodId = dayMeal.Food.Id;
+            //    dayMeal.Food = await _dbContext.Foods.SingleOrDefaultAsync(f => f.Id.Equals(dayMeal.Food.Id)) ??
+            //                   dayMeal.Food;
+            //}
 
-            _dbContext.TrainingDays.Attach(day);
-            await _dbContext.SaveChangesAsync();
+            _dbContext.TrainingDays.Add(day);
+            try
+            {
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                
+            }
+          
 
             return new ServiceResponse<int>
             {

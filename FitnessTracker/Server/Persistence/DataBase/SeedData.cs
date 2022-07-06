@@ -525,7 +525,7 @@ namespace FitnessTracker.Server.Persistence.DataBase
                 new Food()
                 {
                     Title = "CremeCheese",
-                    ImageUrl = "img/dairy/CremeCheese.jpg",
+                    ImageUrl = "img/dairy/CreemeCheese.jpg",
                     FoodTypeId = 1,
                     CaloriesPer100 = 349,
                     CarbsPer100 = 2.66f,
@@ -575,7 +575,7 @@ namespace FitnessTracker.Server.Persistence.DataBase
                 new Food()
                 {
                     Title = "SweetCurd",
-                    ImageUrl = "imd/dairy/SweetCurd.jpg",
+                    ImageUrl = "img/dairy/SweetCurd.jpg",
                     FoodTypeId = 1,
                     CaloriesPer100 = 298,
                     CarbsPer100 = 22,
@@ -715,7 +715,7 @@ namespace FitnessTracker.Server.Persistence.DataBase
                 new Food()
                 {
                     Title = "Bananna",
-                    ImageUrl = "img/fruits/Bananna.jpg",
+                    ImageUrl = "img/fruits/Banana.jpg",
                     FoodTypeId = 4,
                     CaloriesPer100 = 89,
                     CarbsPer100 = 23,
@@ -845,7 +845,7 @@ namespace FitnessTracker.Server.Persistence.DataBase
                 new Food()
                 {
                     Title = "MashedPotato",
-                    ImageUrl = "img/garnish/MashedPotato.jpg",
+                    ImageUrl = "img/garnish/mashedPotato.jpg",
                     FoodTypeId = 5,
                     CaloriesPer100 = 100,
                     CarbsPer100 = 15.7f,
@@ -865,7 +865,7 @@ namespace FitnessTracker.Server.Persistence.DataBase
                 new Food()
                 {
                     Title = "PotatoWages",
-                    ImageUrl = "img/garnish/PotatoWages.jpg",
+                    ImageUrl = "img/garnish/PotatoWegdes.jpg",
                     FoodTypeId = 5,
                     CaloriesPer100 = 93,
                     CarbsPer100 = 21,
@@ -875,7 +875,7 @@ namespace FitnessTracker.Server.Persistence.DataBase
                 new Food()
                 {
                     Title = "Qinoa",
-                    ImageUrl = "img/garnish/Qinoa.jpg",
+                    ImageUrl = "img/garnish/Qinoa.jpeg",
                     FoodTypeId = 5,
                     CaloriesPer100 = 374,
                     CarbsPer100 = 69,
@@ -895,7 +895,7 @@ namespace FitnessTracker.Server.Persistence.DataBase
                 new Food()
                 {
                     Title = "WhiteRice",
-                    ImageUrl = "img/garnish/WhiteRice.jpg",
+                    ImageUrl = "img/garnish/WhiteRice.jpeg",
                     FoodTypeId = 5,
                     CaloriesPer100 = 130,
                     CarbsPer100 = 28,
@@ -1135,7 +1135,7 @@ namespace FitnessTracker.Server.Persistence.DataBase
                 new Food()
                 {
                     Title = "Carrot",
-                    ImageUrl = "img/vegg/Carrot.jpeg",
+                    ImageUrl = "img/vegg/Carrot.jpg",
                     FoodTypeId = 9,
                     CaloriesPer100 = 41,
                     CarbsPer100 = 10,
@@ -1145,7 +1145,7 @@ namespace FitnessTracker.Server.Persistence.DataBase
                 new Food()
                 {
                     Title = "Cucumber",
-                    ImageUrl = "img/vegg/Cucumber.jpeg",
+                    ImageUrl = "img/vegg/Cucumber.jpg",
                     FoodTypeId = 9,
                     CaloriesPer100 = 15,
                     CarbsPer100 = 3.63f,
@@ -1155,7 +1155,7 @@ namespace FitnessTracker.Server.Persistence.DataBase
                 new Food()
                 {
                     Title = "Olive",
-                    ImageUrl = "img/vegg/Olive.jpeg",
+                    ImageUrl = "img/vegg/Olive.jpg",
                     FoodTypeId = 9,
                     CaloriesPer100 = 115,
                     CarbsPer100 = 6,
@@ -1165,7 +1165,7 @@ namespace FitnessTracker.Server.Persistence.DataBase
                 new Food()
                 {
                     Title = "Paprika",
-                    ImageUrl = "img/vegg/Paprika.jpeg",
+                    ImageUrl = "img/vegg/Paprika.jpg",
                     FoodTypeId = 9,
                     CaloriesPer100 = 31,
                     CarbsPer100 = 6,
@@ -1175,7 +1175,7 @@ namespace FitnessTracker.Server.Persistence.DataBase
                 new Food()
                 {
                     Title = "Tomato",
-                    ImageUrl = "img/vegg/Tomato.jpeg",
+                    ImageUrl = "img/vegg/Tomato.jpg",
                     FoodTypeId = 9,
                     CaloriesPer100 = 18,
                     CarbsPer100 = 3.9f,
