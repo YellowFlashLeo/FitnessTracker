@@ -3,7 +3,7 @@
     <p>
         <strong>
             @meal.Food.Title
-            Grams: @meal.Food.WeightGrams
+            Grams: @meal.Food.WeightGrams g
         </strong>
     </p>
 
@@ -18,24 +18,38 @@
     <span>Your body consumed</span>
     <ul>
         <li>Calories: @meal.Food.CalculateCalories()</li>
-        <li>Carbohydrates: @meal.Food.CalculateCarbs()</li>
-        <li>Protein: @meal.Food.CalculateProtein()</li>
-        <li>Fats: @meal.Food.CalculateFats()</li>
+        <li>Carbohydrates: @meal.Food.CalculateCarbs() g</li>
+        <li>Protein: @meal.Food.CalculateProtein() g</li>
+        <li>Fats: @meal.Food.CalculateFats() g</li>
     </ul>
 }
 <p>
-    <strong>
-        Overall Calories per Day: @TrainingDay.GetMealsTotalCalories()
-    </strong>
-    <strong>
-        Overall Carbohydrates per Day: @TrainingDay.GetMealsTotalCarbs()
-    </strong>
-    <strong>
-        Overall Protein per Day: @TrainingDay.GetMealsTotalProtein()
-    </strong>
-    <strong>
-        Overall Fats per Day: @TrainingDay.GetMealsTotalFats()
-    </strong>
+    <ul>
+        <li>
+            <strong>
+                Overall Calories per Day
+            </strong>
+            @TrainingDay.GetMealsTotalCalories()
+        </li>
+        <li>
+            <strong>
+                Overall Carbohydrates per Day
+            </strong>
+            @TrainingDay.GetMealsTotalCarbs()
+        </li>
+        <li>
+            <strong>
+                Overall Protein per Day
+            </strong>
+            @TrainingDay.GetMealsTotalProtein()
+        </li>
+        <li>
+            <strong>
+                Overall Fats per Day
+            </strong>
+             @TrainingDay.GetMealsTotalFats()
+        </li>
+    </ul>
 </p>
 
 @code {

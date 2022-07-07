@@ -16,10 +16,10 @@ namespace FitnessTracker.Shared.Domain
         public List<ExerciseDto> Exercise { get; set; } = new();
         public List<FoodDto> Foods { get; set; } = new();
 
-        public double GetMealsTotalCalories() => Foods.Sum(m => m.CalculateCalories());
-        public double GetMealsTotalProtein() => Foods.Sum(m => m.CalculateProtein());
-        public double GetMealsTotalCarbs() => Foods.Sum(m => m.CalculateCarbs());
-        public double GetMealsTotalFats() => Foods.Sum(m => m.CalculateFats());
+        public double GetMealsTotalCalories() => Rounder.RoundUpForDouble(Foods.Sum(m => m.CalculateCalories()),2);
+        public double GetMealsTotalProtein() => Rounder.RoundUpForDouble(Foods.Sum(m => m.CalculateProtein()),2);
+        public double GetMealsTotalCarbs() => Rounder.RoundUpForDouble(Foods.Sum(m => m.CalculateCarbs()),2);
+        public double GetMealsTotalFats() => Rounder.RoundUpForDouble(Foods.Sum(m => m.CalculateFats()),2);
 
         public float GetTrainingsOverallReps() => Exercise.Sum(t => t.Reps * t.Sets);
     }

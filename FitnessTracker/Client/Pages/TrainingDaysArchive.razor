@@ -10,7 +10,7 @@
     }
     else if (!trainingDays.Any())
     {
-        <h2>No orders placed</h2>
+        <h2>You did not train , yet!</h2>
         <a class="btn btn-success" href="">Probably, you forgot to save your training</a>
     }
     else
@@ -40,7 +40,7 @@
                     <div class="col">
                         Calories: <strong>@item.GetMealsTotalCalories()</strong>
                     </div>
-                    <div class="col flex-grow-0">
+                    <div class="col">
                         Carbohydrates: <strong>@item.GetMealsTotalCarbs()</strong>
                         Protein: <strong>@item.GetMealsTotalProtein()</strong>
                         Fats: <strong>@item.GetMealsTotalFats()</strong>

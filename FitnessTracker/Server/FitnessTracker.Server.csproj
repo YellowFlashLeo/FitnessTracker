@@ -29,9 +29,5 @@
     <ProjectReference Include="..\Shared\FitnessTracker.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Persistence\Services\EmailService\" />
-  </ItemGroup>
-
 
 </Project>
