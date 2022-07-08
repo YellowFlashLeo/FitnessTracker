@@ -22,5 +22,7 @@ namespace FitnessTracker.Shared.Domain
         public double GetMealsTotalFats() => Rounder.RoundUpForDouble(Foods.Sum(m => m.CalculateFats()),2);
 
         public float GetTrainingsOverallReps() => Exercise.Sum(t => t.Reps * t.Sets);
+
+        public float GetTrainingsOverallSets() => Exercise.Sum(t => t.Sets);
     }
 }

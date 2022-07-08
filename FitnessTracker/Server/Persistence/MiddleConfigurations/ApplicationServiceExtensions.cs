@@ -25,7 +25,7 @@ namespace FitnessTracker.Server.Persistence.MiddleConfigurations
             services.AddScoped<IBodyPartService, BodyPartService>();
             services.AddScoped<ITrainingDayService, TrainingDayService>();
             services.AddScoped<INutritionService, NutritionService>();
-            services.AddScoped<IMonthlyStatistics, MonthlyStatistics>();
+            services.AddScoped<IMonthlyStatisticsService, MonthlyStatisticsService>();
             services.AddScoped<IEmailService, EmailService>();
 
             return services;

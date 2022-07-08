@@ -11,4 +11,8 @@
   <ItemGroup>
     <SupportedPlatform Include="browser" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Statistics\" />
+  </ItemGroup>
 </Project>
