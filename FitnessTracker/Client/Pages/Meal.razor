@@ -42,7 +42,7 @@
     }
 
     <div class="order-total @(TrainingDayState.TrainingDay.Trainings.Any() || TrainingDayState.TrainingDay.Meals.Any() ? "" : "hidden")">
-        Total Calories:
+        Calories:
         <span>@TrainingDayState.TrainingDay.GetMealsTotalCalories()</span>
         <a href="overallDay" class="@(TrainingDayState.TrainingDay.Trainings.Count == 0 && TrainingDayState.TrainingDay.Meals.Count == 0 ? "btn btn-warning disabled" : "btn btn-warning")">
             Save Nutrition >

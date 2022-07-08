@@ -309,7 +309,10 @@
     <Content Update="wwwroot\img\garnish\WhiteRice.jpeg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="wwwroot\img\gold.png">
+    <Content Update="wwwroot\img\gold-gym.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\img\Gold.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="wwwroot\img\gymLogo.jpg">
