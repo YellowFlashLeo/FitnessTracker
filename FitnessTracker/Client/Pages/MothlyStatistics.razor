@@ -1,5 +1,45 @@
 ﻿@page "/monthlyStatistics"
 
-@code {
+@inject IMonthlyStatisticsService MonthlyStatisticsService
+@inject NavigationManager NavigationManager
+
+
+<div class="main">
+    <div class="checkout-cols">
+        <div class="checkout-order-details">
+            <h4>Review Records</h4>
+            <p>
+                <strong>Best Working Weight</strong>
+            </p>
+            @foreach (var record in statsResults.BestWorkingWeightPerExercise)
+            {
+                <ul>
+                    <li>@record.Key: @record.Value.ToString() kg</li>
+                </ul>
+            }
+            
+            <p><strong>Avg Reps per training: @statsResults.AverageAmountOfRepsPerTraining</strong></p>
+            <p><strong>Avg Sets per training: @statsResults.AverageAmountOfSetsPerTraining</strong></p>
+        </div>
+
+
+        <div class="checkout-delivery-address">
+            <h4>Review Nutrition Progress</h4>
+            <p><strong>Avg Calories consumed per Day: @statsResults.AverageAmountOfCaloriesPerDay</strong></p>
+            <p><strong>Avg Carbohydrates consumed per Day: @statsResults.AverageAmountOfCarbsPerDay</strong></p>
+            <p><strong>Avg Proteins consumed per Day: @statsResults.AverageAmountOfProteinsPerDay</strong></p>
+            <p><strong>Avg Fats consumed per Day: @statsResults.AverageAmountOfFatsPerDay</strong></p>
+        </div>
+    </div>
+</div>
+
+@code
+{
+    StatResults statsResults = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        statsResults = await MonthlyStatisticsService.GetStatisticsBasedOnLast30Days();
+    }
 
 }

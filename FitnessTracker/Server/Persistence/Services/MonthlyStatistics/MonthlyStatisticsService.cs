@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FitnessTracker.Server.Persistence.DataBase;
 using FitnessTracker.Shared.Domain;
+using FitnessTracker.Shared.Statistics;
 using Microsoft.EntityFrameworkCore;
 
 namespace FitnessTracker.Server.Persistence.Services.MonthlyStatistics
@@ -16,34 +17,53 @@ namespace FitnessTracker.Server.Persistence.Services.MonthlyStatistics
             _dbContext = dbContext;
         }
 
+        public async Task<StatResults> GetOverallMonthlyStatistics(string userId)
+        {
+            var trainingsPerMonth = await GetLast30Days(userId);
+            var stats = new StatResults();
+
+            stats.BestWorkingWeightPerExercise = BestWorkingWeightPerExercise(trainingsPerMonth);
+            stats.AverageAmountOfRepsPerTraining = GetAverageAmountOfRepsPerTraining(trainingsPerMonth);
+            stats.AverageAmountOfSetsPerTraining = GetAverageAmountOfSetsPerTraining(trainingsPerMonth);
+            stats.AverageAmountOfCaloriesPerDay = GetAverageAmountOfCaloriesPerDay(trainingsPerMonth);
+            stats.AverageAmountOfProteinsPerDay = GetAverageAmountOfProteinsPerDay(trainingsPerMonth);
+            stats.AverageAmountOfFatsPerDay = GetAverageAmountOfFatsPerDay(trainingsPerMonth);
+            stats.AverageAmountOfCarbsPerDay = GetAverageAmountOfCarbsPerDay(trainingsPerMonth);
+
+            return stats;
+        }
+
         private async Task<List<TrainingDayDto>> GetLast30Days(string userId)
         {
-            var days =  await _dbContext.TrainingDaysDto.Where(d => d.UserId.Equals(userId))
+            var days = await _dbContext.TrainingDaysDto.Where(d => d.UserId.Equals(userId))
                 .Include(d => d.Exercise)
                 .Include(d => d.Foods)
                 .OrderByDescending(d => d.Trained)
                 .ToListAsync();
 
-            return new List<TrainingDayDto>();
+            return days;
         }
 
-        public async Task<Dictionary<string, float>> BestWorkingWeightPerExercise(string userId)
+        private Dictionary<string, float> BestWorkingWeightPerExercise(List<TrainingDayDto> trainingsPerMonth)
         {
-            var trainingsPerMonth = await GetLast30Days(userId);
-
             var resultDict = new Dictionary<string, float>();
-            foreach (var exerciseDto in trainingsPerMonth.SelectMany(trainingDayDto => trainingDayDto.Exercise.Where(exerciseDto => resultDict[exerciseDto.Name] < exerciseDto.Weight)))
+            foreach (var trainingDay in trainingsPerMonth)
             {
-                resultDict.Add(exerciseDto.Name, exerciseDto.Weight);
+                foreach (var exerciseDto in trainingDay.Exercise)
+                {
+                    if (!resultDict.ContainsKey(exerciseDto.Name))
+                        resultDict.Add(exerciseDto.Name, 0);
+
+                    if (resultDict[exerciseDto.Name] < exerciseDto.Weight)
+                        resultDict[exerciseDto.Name] = exerciseDto.Weight;
+                }
             }
 
             return resultDict;
         }
 
-        public async Task<float> GetAverageAmountOfRepsPerTraining(string userId)
+        private float GetAverageAmountOfRepsPerTraining(List<TrainingDayDto> trainingsPerMonth)
         {
-            var trainingsPerMonth = await GetLast30Days(userId);
-
             var result = 0.0f;
             var amountOfTrainings = trainingsPerMonth.Count;
             var totalAmountOfRepsPerMonth = trainingsPerMonth.Sum(training => training.GetTrainingsOverallReps());
@@ -52,10 +72,8 @@ namespace FitnessTracker.Server.Persistence.Services.MonthlyStatistics
             return result;
         }
 
-        public async Task<float> GetAverageAmountOfSetsPerTraining(string userId)
+        private float GetAverageAmountOfSetsPerTraining(List<TrainingDayDto> trainingsPerMonth)
         {
-            var trainingsPerMonth = await GetLast30Days(userId);
-
             var amountOfTrainings = trainingsPerMonth.Count;
             var totalAmountOfRepsPerMonth = trainingsPerMonth.Sum(training => training.GetTrainingsOverallSets());
 
@@ -63,32 +81,34 @@ namespace FitnessTracker.Server.Persistence.Services.MonthlyStatistics
             return result;
         }
 
-        public async Task<double> GetAverageAmountOfCaloriesPerDay(string userId)
+        private double GetAverageAmountOfCaloriesPerDay(List<TrainingDayDto> trainingsPerMonth)
         {
-            var trainingsPerMonth = await GetLast30Days(userId);
-
             var amountOfTrainings = trainingsPerMonth.Count;
             var totalAmountOfCaloriesPerMonth = trainingsPerMonth.Sum(training => training.GetMealsTotalCalories());
             var result = totalAmountOfCaloriesPerMonth / amountOfTrainings;
             return result;
         }
 
-        public async Task<double> GetAverageAmountOfProteinsPerDay(string userId)
+        private double GetAverageAmountOfProteinsPerDay(List<TrainingDayDto> trainingsPerMonth)
         {
-            var trainingsPerMonth = await GetLast30Days(userId);
-
             var amountOfTrainings = trainingsPerMonth.Count;
             var totalAmountOfProteinPerMonth = trainingsPerMonth.Sum(training => training.GetMealsTotalProtein());
             var result = totalAmountOfProteinPerMonth / amountOfTrainings;
             return result;
         }
 
-        public async Task<double> GetAverageAmountOfFatsPerDay(string userId)
+        private double GetAverageAmountOfFatsPerDay(List<TrainingDayDto> trainingsPerMonth)
         {
-            var trainingsPerMonth = await GetLast30Days(userId);
-
             var amountOfTrainings = trainingsPerMonth.Count;
             var totalAmountOfFatsPerMonth = trainingsPerMonth.Sum(training => training.GetMealsTotalFats());
+            var result = totalAmountOfFatsPerMonth / amountOfTrainings;
+            return result;
+        }
+
+        private double GetAverageAmountOfCarbsPerDay(List<TrainingDayDto> trainingsPerMonth)
+        {
+            var amountOfTrainings = trainingsPerMonth.Count;
+            var totalAmountOfFatsPerMonth = trainingsPerMonth.Sum(training => training.GetMealsTotalCarbs());
             var result = totalAmountOfFatsPerMonth / amountOfTrainings;
             return result;
         }

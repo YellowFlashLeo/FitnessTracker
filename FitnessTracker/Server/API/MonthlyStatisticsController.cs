@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using FitnessTracker.Server.Persistence.Services.MonthlyStatistics;
+using FitnessTracker.Shared.Statistics;
 
 namespace FitnessTracker.Server.API
 {
@@ -16,51 +17,15 @@ namespace FitnessTracker.Server.API
         }
 
         [HttpGet]
-        public async Task<Dictionary<string, float>> GetBestWorkingWeightPerExercise()
+        public async Task<StatResults> GetOverallMonthlyStatistics()
         {
-            var result = await _monthlyStatisticsService.BestWorkingWeightPerExercise(GetCurrentUserId());
+            var result = await _monthlyStatisticsService.GetOverallMonthlyStatistics(GetCurrentUserId());
             return result;
         }
-
-        [HttpGet]
-        public async Task<float> GetAverageAmountOfRepsPerTraining()
-        {
-            var result = await _monthlyStatisticsService.GetAverageAmountOfRepsPerTraining(GetCurrentUserId());
-            return result;
-        }
-
-        [HttpGet]
-        public async Task<float> GetAverageAmountOfSetsPerTraining()
-        {
-            var result = await _monthlyStatisticsService.GetAverageAmountOfSetsPerTraining(GetCurrentUserId());
-            return result;
-        }
-
-        [HttpGet]
-        public async Task<double> GetAverageAmountOfCaloriesPerDay()
-        {
-            var result = await _monthlyStatisticsService.GetAverageAmountOfCaloriesPerDay(GetCurrentUserId());
-            return result;
-        }
-
-        [HttpGet]
-        public async Task<double> GetAverageAmountOfProteinsPerDay()
-        {
-            var result = await _monthlyStatisticsService.GetAverageAmountOfProteinsPerDay(GetCurrentUserId());
-            return result;
-        }
-
-        [HttpGet]
-        public async Task<double> GetAverageAmountOfFatsPerDay()
-        {
-            var result = await _monthlyStatisticsService.GetAverageAmountOfFatsPerDay(GetCurrentUserId());
-            return result;
-        }
-
 
         private string GetCurrentUserId()
         {
-            return HttpContext.User.Identity.Name;
+            return HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
         }
     }
 }
