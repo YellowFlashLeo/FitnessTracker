@@ -79,17 +79,6 @@ namespace FitnessTracker.Server.Persistence.Services.EmailService
             if (trainingDayDto.Foods.Any())
             {
                 bodyBuilder.HtmlBody += "<h3>Today you consumed</h3>";
-                foreach (var food in trainingDayDto.Foods)
-                {
-                    bodyBuilder.HtmlBody += "<p>" + $"<strong>{food.Title} Grams: {food.WeightGrams}g </strong>" +
-                                            "</p>" +
-                                            "<span>Food Nutrients</span>" +
-                                            "<ul>" + $"<li>Calories: {food.CalculateCalories()}</li>" +
-                                            $"<li>Carbohydrates: {food.CalculateCarbs()}</li>" +
-                                            $"<li>Protein: {food.CalculateProtein()}</li>" +
-                                            $"<li>Fats: {food.CalculateFats()}</li>" +
-                                            "</ul>";
-                }
 
                 bodyBuilder.HtmlBody += "<span>Nutrition summary</span>";
                 bodyBuilder.HtmlBody += "<p>" + "<ul>" + "<li>" + "<strong>Overall Calories per Day: </strong>" + $"{trainingDayDto.GetMealsTotalCalories()}" + "</li>" +

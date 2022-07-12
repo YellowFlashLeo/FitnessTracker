@@ -594,6 +594,46 @@ namespace FitnessTracker.Server.Persistence.DataBase
                 },
                 new Food()
                 {
+                    Title = "MilletPorridge",
+                    ImageUrl = "img/dairy/MilletPoridge.jpg",
+                    FoodTypeId = 1,
+                    CaloriesPer100 = 136,
+                    CarbsPer100 = 28.5f,
+                    ProteinPer100 = 3.1f,
+                    FatsPer100 = 1.0f,
+                },
+                new Food()
+                {
+                    Title = "OatMeal",
+                    ImageUrl = "img/dairy/OatMeal.jpg",
+                    FoodTypeId = 1,
+                    CaloriesPer100 = 166,
+                    CarbsPer100 = 28,
+                    ProteinPer100 = 5.9f,
+                    FatsPer100 = 3.6f,
+                },
+                new Food()
+                {
+                    Title = "RicePorridge",
+                    ImageUrl = "img/dairy/RicePoridge.jpg",
+                    FoodTypeId = 1,
+                    CaloriesPer100 = 113,
+                    CarbsPer100 = 15.6f,
+                    ProteinPer100 = 2.6f,
+                    FatsPer100 = 4.4f,
+                },
+                new Food()
+                {
+                    Title = "Semolina",
+                    ImageUrl = "img/dairy/Semolina.jpg",
+                    FoodTypeId = 1,
+                    CaloriesPer100 = 98,
+                    CarbsPer100 = 15.3f,
+                    ProteinPer100 = 3,
+                    FatsPer100 = 3.2f,
+                },
+                new Food()
+                {
                     Title = "BoiledEggs",
                     ImageUrl = "img/eggs/BoiledEggs.jpg",
                     FoodTypeId = 2,
@@ -691,6 +731,16 @@ namespace FitnessTracker.Server.Persistence.DataBase
                     CarbsPer100 = 7,
                     ProteinPer100 = 10.4f,
                     FatsPer100 = 6.7f,
+                },
+                new Food()
+                {
+                    Title = "BreadedFish",
+                    ImageUrl = "img/fish/fishAndChips.jpg",
+                    FoodTypeId = 3,
+                    CaloriesPer100 = 199,
+                    CarbsPer100 = 7,
+                    ProteinPer100 = 16.72f,
+                    FatsPer100 = 11.4f,
                 },
                 new Food()
                 {
@@ -1064,6 +1114,16 @@ namespace FitnessTracker.Server.Persistence.DataBase
                 },
                 new Food()
                 {
+                    Title = "Schnitzel",
+                    ImageUrl = "img/meat/Schnitzel.jpg",
+                    FoodTypeId = 7,
+                    CaloriesPer100 = 297,
+                    CarbsPer100 = 16.3f,
+                    ProteinPer100 = 16,
+                    FatsPer100 = 18.8f
+                },
+                new Food()
+                {
                     Title = "Almonds",
                     ImageUrl = "img/nuts/Almonds.jpg",
                     FoodTypeId = 8,
@@ -1181,6 +1241,26 @@ namespace FitnessTracker.Server.Persistence.DataBase
                     CarbsPer100 = 3.9f,
                     ProteinPer100 = 0.9f,
                     FatsPer100 = 0.2f
+                },
+                new Food()
+                {
+                    Title = "GreekSalad",
+                    ImageUrl = "img/vegg/GreekSalad.jpg",
+                    FoodTypeId = 9,
+                    CaloriesPer100 = 101,
+                    CarbsPer100 = 3.2f,
+                    ProteinPer100 = 6.66f,
+                    FatsPer100 = 6.9f
+                },
+                new Food()
+                {
+                    Title = "ChickenCaesarSalad",
+                    ImageUrl = "img/vegg/CaesarSalad.jpg",
+                    FoodTypeId = 9,
+                    CaloriesPer100 = 170,
+                    CarbsPer100 = 6.5f,
+                    ProteinPer100 = 5.0f,
+                    FatsPer100 = 14.1f
                 }
             };
 
