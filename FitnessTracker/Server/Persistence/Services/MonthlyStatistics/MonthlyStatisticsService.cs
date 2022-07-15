@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using FitnessTracker.Server.Persistence.DataBase;
+using FitnessTracker.Shared;
 using FitnessTracker.Shared.Domain;
 using FitnessTracker.Shared.Statistics;
 using Microsoft.EntityFrameworkCore;
@@ -23,12 +24,12 @@ namespace FitnessTracker.Server.Persistence.Services.MonthlyStatistics
             var stats = new StatResults();
 
             stats.BestWorkingWeightPerExercise = BestWorkingWeightPerExercise(trainingsPerMonth);
-            stats.AverageAmountOfRepsPerTraining = GetAverageAmountOfRepsPerTraining(trainingsPerMonth);
-            stats.AverageAmountOfSetsPerTraining = GetAverageAmountOfSetsPerTraining(trainingsPerMonth);
-            stats.AverageAmountOfCaloriesPerDay = GetAverageAmountOfCaloriesPerDay(trainingsPerMonth);
-            stats.AverageAmountOfProteinsPerDay = GetAverageAmountOfProteinsPerDay(trainingsPerMonth);
-            stats.AverageAmountOfFatsPerDay = GetAverageAmountOfFatsPerDay(trainingsPerMonth);
-            stats.AverageAmountOfCarbsPerDay = GetAverageAmountOfCarbsPerDay(trainingsPerMonth);
+            stats.AverageAmountOfRepsPerTraining = Rounder.RoundUp(GetAverageAmountOfRepsPerTraining(trainingsPerMonth),2);
+            stats.AverageAmountOfSetsPerTraining = Rounder.RoundUp(GetAverageAmountOfSetsPerTraining(trainingsPerMonth),2);
+            stats.AverageAmountOfCaloriesPerDay = Rounder.RoundUpForDouble(GetAverageAmountOfCaloriesPerDay(trainingsPerMonth),2);
+            stats.AverageAmountOfProteinsPerDay = Rounder.RoundUpForDouble(GetAverageAmountOfProteinsPerDay(trainingsPerMonth),2);
+            stats.AverageAmountOfFatsPerDay = Rounder.RoundUpForDouble(GetAverageAmountOfFatsPerDay(trainingsPerMonth),2);
+            stats.AverageAmountOfCarbsPerDay = Rounder.RoundUpForDouble(GetAverageAmountOfCarbsPerDay(trainingsPerMonth),2);
 
             return stats;
         }
