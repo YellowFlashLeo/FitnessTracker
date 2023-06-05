@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using FitnessTracker.Server.Persistence.Services.TrainingDayService;

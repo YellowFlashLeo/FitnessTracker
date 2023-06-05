@@ -21,15 +21,18 @@ namespace FitnessTracker.Server.Persistence.Services.MonthlyStatistics
         public async Task<StatResults> GetOverallMonthlyStatistics(string userId)
         {
             var trainingsPerMonth = await GetLast30Days(userId);
+            
             var stats = new StatResults();
 
             stats.BestWorkingWeightPerExercise = BestWorkingWeightPerExercise(trainingsPerMonth);
-            stats.AverageAmountOfRepsPerTraining = Rounder.RoundUp(GetAverageAmountOfRepsPerTraining(trainingsPerMonth),2);
-            stats.AverageAmountOfSetsPerTraining = Rounder.RoundUp(GetAverageAmountOfSetsPerTraining(trainingsPerMonth),2);
-            stats.AverageAmountOfCaloriesPerDay = Rounder.RoundUpForDouble(GetAverageAmountOfCaloriesPerDay(trainingsPerMonth),2);
-            stats.AverageAmountOfProteinsPerDay = Rounder.RoundUpForDouble(GetAverageAmountOfProteinsPerDay(trainingsPerMonth),2);
-            stats.AverageAmountOfFatsPerDay = Rounder.RoundUpForDouble(GetAverageAmountOfFatsPerDay(trainingsPerMonth),2);
-            stats.AverageAmountOfCarbsPerDay = Rounder.RoundUpForDouble(GetAverageAmountOfCarbsPerDay(trainingsPerMonth),2);
+            stats.AverageAmountOfRepsPerTraining = trainingsPerMonth.Count.Equals(0)
+                ? 0
+                : Rounder.RoundUp(GetAverageAmountOfRepsPerTraining(trainingsPerMonth), 2);
+            stats.AverageAmountOfSetsPerTraining = trainingsPerMonth.Count.Equals(0) ? 0 : Rounder.RoundUp(GetAverageAmountOfSetsPerTraining(trainingsPerMonth),2);
+            stats.AverageAmountOfCaloriesPerDay = trainingsPerMonth.Count.Equals(0) ? 0 : Rounder.RoundUpForDouble(GetAverageAmountOfCaloriesPerDay(trainingsPerMonth),2);
+            stats.AverageAmountOfProteinsPerDay = trainingsPerMonth.Count.Equals(0) ? 0 : Rounder.RoundUpForDouble(GetAverageAmountOfProteinsPerDay(trainingsPerMonth),2);
+            stats.AverageAmountOfFatsPerDay = trainingsPerMonth.Count.Equals(0) ? 0 : Rounder.RoundUpForDouble(GetAverageAmountOfFatsPerDay(trainingsPerMonth),2);
+            stats.AverageAmountOfCarbsPerDay = trainingsPerMonth.Count.Equals(0) ? 0 : Rounder.RoundUpForDouble(GetAverageAmountOfCarbsPerDay(trainingsPerMonth),2);
 
             return stats;
         }

@@ -57,6 +57,10 @@ namespace FitnessTracker.Server.API
                     {
                         return Ok();
                     }
+                    else
+                    {
+                        return BadRequest(result);
+                    }
                 }
             }
             return BadRequest();

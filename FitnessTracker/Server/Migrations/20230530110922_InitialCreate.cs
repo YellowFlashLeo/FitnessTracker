@@ -78,6 +78,20 @@ namespace FitnessTracker.Server.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TrainingDaysDto",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Trained = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TrainingDaysDto", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -187,6 +201,58 @@ namespace FitnessTracker.Server.Migrations
                         principalTable: "Genders",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ExerciseDto",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MuscleGroup = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Reps = table.Column<int>(type: "int", nullable: false),
+                    Weight = table.Column<float>(type: "real", nullable: false),
+                    Sets = table.Column<int>(type: "int", nullable: false),
+                    RPE = table.Column<int>(type: "int", nullable: false),
+                    TrainingDayDtoId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ExerciseDto", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ExerciseDto_TrainingDaysDto_TrainingDayDtoId",
+                        column: x => x.TrainingDayDtoId,
+                        principalTable: "TrainingDaysDto",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FoodDto",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    FoodTypeName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    WeightGrams = table.Column<float>(type: "real", nullable: false),
+                    CaloriesPer100 = table.Column<float>(type: "real", nullable: false),
+                    FatsPer100 = table.Column<float>(type: "real", nullable: false),
+                    CarbsPer100 = table.Column<float>(type: "real", nullable: false),
+                    ProteinPer100 = table.Column<float>(type: "real", nullable: false),
+                    TrainingDayDtoId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FoodDto", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FoodDto_TrainingDaysDto_TrainingDayDtoId",
+                        column: x => x.TrainingDayDtoId,
+                        principalTable: "TrainingDaysDto",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -358,6 +424,11 @@ namespace FitnessTracker.Server.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ExerciseDto_TrainingDayDtoId",
+                table: "ExerciseDto",
+                column: "TrainingDayDtoId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Exercises_BodyPartId",
                 table: "Exercises",
                 column: "BodyPartId");
@@ -381,6 +452,11 @@ namespace FitnessTracker.Server.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FoodDto_TrainingDayDtoId",
+                table: "FoodDto",
+                column: "TrainingDayDtoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Foods_FoodTypeId",
@@ -426,6 +502,12 @@ namespace FitnessTracker.Server.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "ExerciseDto");
+
+            migrationBuilder.DropTable(
+                name: "FoodDto");
+
+            migrationBuilder.DropTable(
                 name: "Meal");
 
             migrationBuilder.DropTable(
@@ -437,6 +519,9 @@ namespace FitnessTracker.Server.Migrations
             migrationBuilder.DropTable(
                 name: "FitnessAppUsers",
                 schema: "dbo");
+
+            migrationBuilder.DropTable(
+                name: "TrainingDaysDto");
 
             migrationBuilder.DropTable(
                 name: "Foods");

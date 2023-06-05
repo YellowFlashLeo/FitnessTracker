@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FitnessTracker.Server.Persistence.DataBase;
@@ -19,11 +20,20 @@ namespace FitnessTracker.Server.Persistence.Services.BodyPartService.cs
 
         public async Task<ServiceResponse<List<BodyPart>>> GetBodyParts()
         {
-            var bodyParts = await _dbContext.BodyParts.ToListAsync();
-            return new ServiceResponse<List<BodyPart>>
+            try
             {
-                Data = bodyParts
-            };
+                var bodyParts = await _dbContext.BodyParts.ToListAsync();
+                return new ServiceResponse<List<BodyPart>>
+                {
+                    Data = bodyParts
+                };
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+           
         }
 
         public async Task<ServiceResponse<BodyPart>> GetBodyPart(int id)
