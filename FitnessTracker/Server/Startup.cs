@@ -36,26 +36,37 @@ namespace FitnessTracker.Server
 
             services.AddControllersWithViews();
             services.AddRazorPages();
-
-            // here we get token and check to make sure it is valid
-            services.AddAuthentication(options =>
-                {
-                    options.DefaultAuthenticateScheme = "JwtBearer";
-                    options.DefaultChallengeScheme = "JwtBearer";
-                })
-                .AddJwtBearer("JwtBearer", jwtBearerOptions =>
-                {
-                    jwtBearerOptions.SaveToken = true;
-                    jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: "ReactOrigin",
+                    builder =>
                     {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MySecretKeyIsSecret")),
-                        ValidateIssuer = false,
-                        ValidateAudience = false,
-                        ValidateLifetime = true,
-                        ClockSkew = TimeSpan.FromMinutes(30)
-                    };
-                });
+                        builder.WithOrigins("http://localhost:5173/", "https://localhost:44357/"
+                                )
+                            .AllowAnyHeader()
+                            .AllowAnyOrigin()
+                            .AllowAnyMethod();
+                    });
+            });
+            // here we get token and check to make sure it is valid
+            //services.AddAuthentication(options =>
+            //    {
+            //        options.DefaultAuthenticateScheme = "JwtBearer";
+            //        options.DefaultChallengeScheme = "JwtBearer";
+            //    })
+            //    .AddJwtBearer("JwtBearer", jwtBearerOptions =>
+            //    {
+            //        jwtBearerOptions.SaveToken = true;
+            //        jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters
+            //        {
+            //            ValidateIssuerSigningKey = true,
+            //            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MySecretKeyIsSecret")),
+            //            ValidateIssuer = false,
+            //            ValidateAudience = false,
+            //            ValidateLifetime = true,
+            //            ClockSkew = TimeSpan.FromMinutes(30)
+            //        };
+            //    });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -84,7 +95,7 @@ namespace FitnessTracker.Server
 
             app.UseAuthentication();
             app.UseAuthorization();
-
+            app.UseCors("ReactOrigin");
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();

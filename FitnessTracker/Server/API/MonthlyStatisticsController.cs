@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using FitnessTracker.Server.Persistence.Services.MonthlyStatistics;
+using FitnessTracker.Shared;
 using FitnessTracker.Shared.Statistics;
 
 namespace FitnessTracker.Server.API
@@ -17,7 +18,7 @@ namespace FitnessTracker.Server.API
         }
 
         [HttpGet]
-        public async Task<StatResults> GetOverallMonthlyStatistics()
+        public async Task<ActionResult<ServiceResponse<StatResults>>> GetOverallMonthlyStatistics()
         {
             var result = await _monthlyStatisticsService.GetOverallMonthlyStatistics(GetCurrentUserId());
             return result;

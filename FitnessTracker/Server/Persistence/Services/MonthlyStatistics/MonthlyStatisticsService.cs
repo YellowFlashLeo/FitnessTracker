@@ -18,9 +18,18 @@ namespace FitnessTracker.Server.Persistence.Services.MonthlyStatistics
             _dbContext = dbContext;
         }
 
-        public async Task<StatResults> GetOverallMonthlyStatistics(string userId)
+        public async Task<ServiceResponse<StatResults>> GetOverallMonthlyStatistics(string userId)
         {
             var trainingsPerMonth = await GetLast30Days(userId);
+            if (trainingsPerMonth.Count == 0)
+            {
+                return new ServiceResponse<StatResults>()
+                {
+                    Success = false,
+                    Message = "No records found",
+                    Data = new StatResults()
+                };
+            }
             
             var stats = new StatResults();
 
@@ -34,7 +43,12 @@ namespace FitnessTracker.Server.Persistence.Services.MonthlyStatistics
             stats.AverageAmountOfFatsPerDay = trainingsPerMonth.Count.Equals(0) ? 0 : Rounder.RoundUpForDouble(GetAverageAmountOfFatsPerDay(trainingsPerMonth),2);
             stats.AverageAmountOfCarbsPerDay = trainingsPerMonth.Count.Equals(0) ? 0 : Rounder.RoundUpForDouble(GetAverageAmountOfCarbsPerDay(trainingsPerMonth),2);
 
-            return stats;
+            return new ServiceResponse<StatResults>()
+            {
+                Success = true,
+                Message = "Records delivered",
+                Data = stats
+            };
         }
 
         private async Task<List<TrainingDayDto>> GetLast30Days(string userId)
