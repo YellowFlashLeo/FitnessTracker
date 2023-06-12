@@ -4,8 +4,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using FitnessTracker.Server.Persistence.Services.TrainingDayService;
 using FitnessTracker.Shared;
-using FitnessTracker.Shared.Domain;
-using FitnessTracker.Shared.Domain.Fitness;
+using FitnessTracker.Shared.Domain.NewFolder;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FitnessTracker.Server.API
@@ -21,26 +20,36 @@ namespace FitnessTracker.Server.API
             _trainingDayService = trainingDayService;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<ServiceResponse<List<TrainingDayDto>>>> GetTrainingDays()
+
+        [HttpGet("allTrainings")]
+        public async Task<ActionResult<ServiceResponse<List<TrainingDTO>>>> GetTrainings()
         {
-            var result = await _trainingDayService.GetAllTrainingDays(GetCurrentUserId());
+            var result = await _trainingDayService.GetAllTrainings(GetCurrentUserId());
             return Ok(result);
         }
 
-        [HttpGet("{trainingDayId}")]
-        public async Task<ActionResult<ServiceResponse<TrainingDayDto>>> GetTrainingDay(int trainingDayId)
+        [HttpGet("allMeals")]
+        public async Task<ActionResult<ServiceResponse<List<NutritionDTO>>>> GetMeals()
         {
-            var result = await _trainingDayService.GetTrainingDay(GetCurrentUserId(), trainingDayId);
-            return Ok(result.Data);
+            var result = await _trainingDayService.GetAllMeals(GetCurrentUserId());
+            return Ok(result);
         }
 
         [HttpPost]
-        public async Task<ActionResult<ServiceResponse<int>>> SaveDay(TrainingDay day)
+        [Route("saveTraining")]
+        public async Task SaveTraining(TrainingDTO training)
         {
-            var trainingDayId = await _trainingDayService.SaveTrainingDay(day, GetCurrentUserId());
-            return Ok(trainingDayId.Data);
+            await _trainingDayService.SaveTraining(training, GetCurrentUserId());
         }
+
+        [HttpPost]
+        [Route("saveMeal")]
+        public async Task SaveMeal(NutritionDTO meal)
+        {
+           await _trainingDayService.SaveMeal(meal, GetCurrentUserId());
+        }
+
+
         private string GetCurrentUserId()
         {
             return HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);

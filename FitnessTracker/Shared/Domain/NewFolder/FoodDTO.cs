@@ -1,13 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace FitnessTracker.Shared.Domain.Nutrition.Dto
+namespace FitnessTracker.Shared.Domain.NewFolder
 {
-    public class FoodDto
+    public class FoodDTO
     {
         [Key] public int Id { get; set; }
         public string Title { get; set; }
         public int Quantity { get; set; } = 1;
-        public string FoodTypeName { get; set; }
+        public int FoodTypeId { get; set; }
         public float WeightGrams { get; set; }
         public float CaloriesPer100 { get; set; }
         public float FatsPer100 { get; set; }

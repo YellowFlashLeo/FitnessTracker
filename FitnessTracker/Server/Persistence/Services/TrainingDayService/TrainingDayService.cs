@@ -4,10 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FitnessTracker.Server.Persistence.DataBase;
 using FitnessTracker.Shared;
-using FitnessTracker.Shared.Domain;
-using FitnessTracker.Shared.Domain.Fitness;
-using FitnessTracker.Shared.Domain.Fitness.Dto;
-using FitnessTracker.Shared.Domain.Nutrition.Dto;
+using FitnessTracker.Shared.Domain.NewFolder;
 using Microsoft.EntityFrameworkCore;
 
 namespace FitnessTracker.Server.Persistence.Services.TrainingDayService
@@ -21,74 +18,71 @@ namespace FitnessTracker.Server.Persistence.Services.TrainingDayService
             _dbContext = dbContext;
         }
 
-        public async Task<ServiceResponse<List<TrainingDayDto>>> GetAllTrainingDays(string userId)
+        public async Task<ServiceResponse<List<TrainingDTO>>> GetAllTrainings(string userId)
         {
-            var trainingDays = await _dbContext.TrainingDaysDto.Where(d => d.UserId.Equals(userId))
-                .Include(d => d.Exercise)
-                .Include(d => d.Foods)
-                .OrderByDescending(o => o.Trained)
+            userId = "leoelo";
+            var trainings = await _dbContext.TrainingDto.Where(d => d.UserId.Equals(userId))
+                .Include(d=>d.Exercise)
+                .OrderByDescending(d=>d.Trained)
                 .ToListAsync();
 
-            return new ServiceResponse<List<TrainingDayDto>>
+            if (trainings.Count == 0)
             {
-                Data = trainingDays
+                return new ServiceResponse<List<TrainingDTO>>()
+                {
+                    Data = null,
+                    Message = "No records found",
+                    Success = false
+
+                };
+            }
+
+            return new ServiceResponse<List<TrainingDTO>>()
+            {
+                Data = trainings,
+                Message = "Records delivered",
+                Success = true
+
             };
         }
 
-        public async Task<ServiceResponse<TrainingDayDto>> GetTrainingDay(string userId, int trainingDayId)
+
+        public async Task<ServiceResponse<List<NutritionDTO>>> GetAllMeals(string userId)
         {
-            var trainingDay = await _dbContext.TrainingDaysDto.Where(d => d.UserId.Equals(userId) && d.Id.Equals(trainingDayId))
-                .Include(d => d.Exercise)
+            userId = "leoelo";
+            var meals = await _dbContext.NutritionDto.Where(d => d.UserId.Equals(userId))
                 .Include(d => d.Foods)
-                .OrderByDescending(o => o.Trained)
-                .FirstOrDefaultAsync();
+                .OrderByDescending(d => d.MealTime)
+                .ToListAsync();
 
-            return new ServiceResponse<TrainingDayDto>
+            if (meals.Count == 0)
             {
-                Data = trainingDay
+                return new ServiceResponse<List<NutritionDTO>>()
+                {
+                    Data = null,
+                    Message = "No records found",
+                    Success = false
+                };
+            }
+
+            return new ServiceResponse<List<NutritionDTO>>()
+            {
+                Data = meals,
+                Message = "Records delivered",
+                Success = true
             };
         }
 
-        public async Task<ServiceResponse<int>> SaveTrainingDay(TrainingDay day, string userId)
+
+
+        public async Task SaveTraining(TrainingDTO trainingDay, string userId)
         {
-            day.Trained = DateTime.Now;
-            day.UserId = userId;
+            trainingDay.Trained = DateTime.Now;
+            trainingDay.UserId = "leoelo";
+           // trainingDay.UserId = userId;
 
-            TrainingDayDto trialDayDto = new();
-            trialDayDto.UserId = day.UserId;
-            trialDayDto.Trained = day.Trained;
-            trialDayDto.Foods = new List<FoodDto>();
-            trialDayDto.Exercise = new List<ExerciseDto>();
-
-            foreach (var dayMeal in day.Meals)
-            {
-                var foodDto = new FoodDto();
-                foodDto.CaloriesPer100 = dayMeal.Food.CaloriesPer100;
-                foodDto.FatsPer100 = dayMeal.Food.FatsPer100;
-                foodDto.CarbsPer100 = dayMeal.Food.CarbsPer100;
-                foodDto.ProteinPer100 = dayMeal.Food.ProteinPer100;
-                foodDto.Quantity = dayMeal.Food.Quantity;
-                foodDto.Title = dayMeal.Food.Title;
-                foodDto.WeightGrams = dayMeal.Food.WeightGrams;
-                foodDto.FoodTypeName = dayMeal.Food.FoodType.Name;
-
-                trialDayDto.Foods.Add(foodDto);
-            }
-
-            foreach (var trainingExercise in day.Trainings)
-            {
-                var exerciseDto = new ExerciseDto();
-                exerciseDto.Name = trainingExercise.Exercise.Name;
-                exerciseDto.Sets = trainingExercise.Exercise.Sets;
-                exerciseDto.MuscleGroup = trainingExercise.Exercise.BodyPart.Name;
-                exerciseDto.RPE = trainingExercise.Exercise.RPE;
-                exerciseDto.Reps = trainingExercise.Exercise.Reps;
-                exerciseDto.Weight = trainingExercise.Exercise.Weight;
-
-                trialDayDto.Exercise.Add(exerciseDto);
-            }
-
-            _dbContext.TrainingDaysDto.Add(trialDayDto);
+            
+            _dbContext.TrainingDto.Add(trainingDay);
 
             try
             {
@@ -98,11 +92,23 @@ namespace FitnessTracker.Server.Persistence.Services.TrainingDayService
             {
                 throw new Exception(ex.Message);
             }
+        }
 
-            return new ServiceResponse<int>
+        public async Task SaveMeal(NutritionDTO meal, string userId)
+        {
+            meal.MealTime = DateTime.Now;
+            meal.UserId = "leoelo";
+
+            _dbContext.NutritionDto.Add(meal);
+
+            try
             {
-                Data = day.Id
-            };
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }

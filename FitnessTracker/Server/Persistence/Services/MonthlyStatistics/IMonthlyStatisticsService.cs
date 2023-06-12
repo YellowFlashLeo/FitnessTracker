@@ -6,6 +6,7 @@ namespace FitnessTracker.Server.Persistence.Services.MonthlyStatistics
 {
     public interface IMonthlyStatisticsService
     {
-        Task<ServiceResponse<StatResults>> GetOverallMonthlyStatistics(string userId);
+        //Task<ServiceResponse<StatResults>> GetOverallMonthlyStatistics(string userId);
+        Task<ServiceResponse<StatResults>> GetMonthlyStats(string userId);
     }
 }

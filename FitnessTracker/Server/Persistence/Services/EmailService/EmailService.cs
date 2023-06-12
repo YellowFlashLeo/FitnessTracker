@@ -1,11 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FitnessTracker.Server.Persistence.DataBase;
 using FitnessTracker.Shared;
-using FitnessTracker.Shared.Domain;
-using FitnessTracker.Shared.Domain.Fitness;
-using FitnessTracker.Shared.Domain.Fitness.Dto;
-using FitnessTracker.Shared.Domain.Nutrition.Dto;
 using MailKit.Net.Smtp;
 using MailKit.Security;
 using Microsoft.Extensions.Configuration;
@@ -15,9 +12,11 @@ namespace FitnessTracker.Server.Persistence.Services.EmailService
 {
     public class EmailService :IEmailService
     {
+        private readonly FitnessStoreContext _dbContext;
         private readonly IConfiguration _config;
-        public EmailService(IConfiguration config)
+        public EmailService(IConfiguration config, FitnessStoreContext dbContext)
         {
+            _dbContext = dbContext;
             _config = config;
         }
         public async Task<ServiceResponse<bool>> SendEmail(EmailDto emailBody)
@@ -30,7 +29,7 @@ namespace FitnessTracker.Server.Persistence.Services.EmailService
             email.To.Add(MailboxAddress.Parse(emailBody.To));
             email.Subject = emailBody.Subject;
 
-            email.Body =  EmailBodyGenerator(emailBody.Body);
+            email.Body =  EmailBodyGenerator(emailBody);
 
             using var smtp = new SmtpClient();
             smtp.ServerCertificateValidationCallback = (s, c, h, e) => true;
@@ -71,28 +70,36 @@ namespace FitnessTracker.Server.Persistence.Services.EmailService
 
             return credentials;
         }
-        private MimeEntity EmailBodyGenerator(TrainingDay trainingDay)
-        {
-            var trainingDayDto = ConvertTrainingDayToDto(trainingDay);
+        private MimeEntity EmailBodyGenerator(EmailDto emailContent)
+        { ;
             var bodyBuilder = new BodyBuilder();
-
-            if (trainingDayDto.Foods.Any())
+            var exercises = emailContent.Body.Exercise;
+            var nutrients = emailContent.Food.Foods;
+            if (nutrients.Any())
             {
                 bodyBuilder.HtmlBody += "<h3>Today you consumed</h3>";
 
                 bodyBuilder.HtmlBody += "<span>Nutrition summary</span>";
-                bodyBuilder.HtmlBody += "<p>" + "<ul>" + "<li>" + "<strong>Overall Calories per Day: </strong>" + $"{trainingDayDto.GetMealsTotalCalories()}" + "</li>" +
-                                        "<li>" + "<strong>Overall Carbohydrates per Day: </strong>" + $"{trainingDayDto.GetMealsTotalCarbs()}" +
-                                        "<li>" + "<strong>Overall Protein per Day: </strong>" + $"{trainingDayDto.GetMealsTotalProtein()}" +
-                                        "<li>" + "<strong>Overall Fats per Day: </strong>" + $"{trainingDayDto.GetMealsTotalFats()}" +
+                bodyBuilder.HtmlBody += "<p>" + "<ul>" + "<li>" + "<strong>Overall Calories per Day: </strong>" + $"{nutrients.Sum(n=>n.CalculateCalories())}" + "</li>" +
+                                        "<li>" + "<strong>Overall Carbohydrates per Day: </strong>" + $"{nutrients.Sum(n => n.CalculateCarbs())}" +
+                                        "<li>" + "<strong>Overall Protein per Day: </strong>" + $"{nutrients.Sum(n => n.CalculateProtein())}" +
+                                        "<li>" + "<strong>Overall Fats per Day: </strong>" + $"{nutrients.Sum(n => n.CalculateFats())}" +
                                         "</ul>" +
                                         "</p>";
             }
 
-            if (trainingDayDto.Exercise.Any())
+            if (exercises.Any())
             {
-                bodyBuilder.HtmlBody += $"<h3>Today you trained {trainingDayDto.Exercise.FirstOrDefault()?.MuscleGroup}</h3>";
-                foreach (var exercise in trainingDayDto.Exercise)
+                var uniqueBodyPartIds  = exercises.Select(x => x.BodyPartId).Distinct().ToList();
+                var bodyParts = _dbContext.BodyParts.ToList();
+                var muscleGroupNames = new List<string>();
+                foreach (var uniqueBodyPartId in uniqueBodyPartIds)
+                {
+                    var bodyPartName = bodyParts.FirstOrDefault(b => b.Id.Equals(uniqueBodyPartId))?.Name;
+                    muscleGroupNames.Add(bodyPartName);
+                }
+                bodyBuilder.HtmlBody += $"<h3>Today you trained {string.Join(',',muscleGroupNames)}</h3>";
+                foreach (var exercise in exercises)
                 {
                     bodyBuilder.HtmlBody += $"<p><strong>{exercise.Name}</strong></p>" +
                                             "<ul>" +
@@ -106,45 +113,6 @@ namespace FitnessTracker.Server.Persistence.Services.EmailService
 
             return bodyBuilder.ToMessageBody();
 
-        }
-
-        private TrainingDayDto ConvertTrainingDayToDto(TrainingDay trainingDay)
-        {
-            TrainingDayDto trialDayDto = new();
-            trialDayDto.UserId = trainingDay.UserId;
-            trialDayDto.Trained = trainingDay.Trained;
-            trialDayDto.Foods = new List<FoodDto>();
-            trialDayDto.Exercise = new List<ExerciseDto>();
-
-            foreach (var dayMeal in trainingDay.Meals)
-            {
-                var foodDto = new FoodDto();
-                foodDto.CaloriesPer100 = dayMeal.Food.CaloriesPer100;
-                foodDto.FatsPer100 = dayMeal.Food.FatsPer100;
-                foodDto.CarbsPer100 = dayMeal.Food.CarbsPer100;
-                foodDto.ProteinPer100 = dayMeal.Food.ProteinPer100;
-                foodDto.Quantity = dayMeal.Food.Quantity;
-                foodDto.Title = dayMeal.Food.Title;
-                foodDto.WeightGrams = dayMeal.Food.WeightGrams;
-                foodDto.FoodTypeName = dayMeal.Food.FoodType.Name;
-
-                trialDayDto.Foods.Add(foodDto);
-            }
-
-            foreach (var trainingExercise in trainingDay.Trainings)
-            {
-                var exerciseDto = new ExerciseDto();
-                exerciseDto.Name = trainingExercise.Exercise.Name;
-                exerciseDto.Sets = trainingExercise.Exercise.Sets;
-                exerciseDto.MuscleGroup = trainingExercise.Exercise.BodyPart.Name;
-                exerciseDto.RPE = trainingExercise.Exercise.RPE;
-                exerciseDto.Reps = trainingExercise.Exercise.Reps;
-                exerciseDto.Weight = trainingExercise.Exercise.Weight;
-
-                trialDayDto.Exercise.Add(exerciseDto);
-            }
-
-            return trialDayDto;
         }
     }
 }

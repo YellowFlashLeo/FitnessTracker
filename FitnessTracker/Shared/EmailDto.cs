@@ -1,4 +1,4 @@
-﻿using FitnessTracker.Shared.Domain.Fitness;
+﻿using FitnessTracker.Shared.Domain.NewFolder;
 
 namespace FitnessTracker.Shared
 {
@@ -6,6 +6,7 @@ namespace FitnessTracker.Shared
     {
         public string To { get; set; } = string.Empty;
         public string Subject { get; set; } = string.Empty;
-        public TrainingDay Body { get; set; } = new ();
+        public TrainingDTO Body { get; set; } = new ();
+        public NutritionDTO Food { get; set; } = new();
     }
 }

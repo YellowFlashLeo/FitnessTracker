@@ -17,10 +17,10 @@ namespace FitnessTracker.Server.API
             _monthlyStatisticsService = monthlyStatisticsService;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<ServiceResponse<StatResults>>> GetOverallMonthlyStatistics()
+        [HttpGet("stats")]
+        public async Task<ActionResult<ServiceResponse<StatResults>>> GetMonthlyStats()
         {
-            var result = await _monthlyStatisticsService.GetOverallMonthlyStatistics(GetCurrentUserId());
+            var result = await _monthlyStatisticsService.GetMonthlyStats(GetCurrentUserId());
             return result;
         }
 

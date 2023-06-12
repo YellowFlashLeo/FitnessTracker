@@ -19,7 +19,7 @@ namespace FitnessTracker.Server.Persistence.MiddleConfigurations
         {
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" }); });
             services.AddDbContext<FitnessStoreContext>(options =>
-                options.UseSqlServer("Server=LAPTOP-MDC8ECNL;Database=Fitness;User Id=sa; Password=leonid12345678;"));
+                options.UseSqlServer("Server=LAPTOP-MDC8ECNL;Database=Fitness;User Id=sa; Password=leonid199730"));
 
             services.AddScoped<IIdentityService, IdentityService>();
             services.AddScoped<IBodyPartService, BodyPartService>();

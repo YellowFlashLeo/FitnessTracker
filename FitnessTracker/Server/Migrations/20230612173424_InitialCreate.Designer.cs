@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FitnessTracker.Server.Migrations
 {
     [DbContext(typeof(FitnessStoreContext))]
-    [Migration("20230530110922_InitialCreate")]
+    [Migration("20230612173424_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,41 +35,6 @@ namespace FitnessTracker.Server.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("BodyParts");
-                });
-
-            modelBuilder.Entity("FitnessTracker.Shared.Domain.Fitness.Dto.ExerciseDto", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("MuscleGroup")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("RPE")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Reps")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Sets")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("TrainingDayDtoId")
-                        .HasColumnType("int");
-
-                    b.Property<float>("Weight")
-                        .HasColumnType("real");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TrainingDayDtoId");
-
-                    b.ToTable("ExerciseDto");
                 });
 
             modelBuilder.Entity("FitnessTracker.Shared.Domain.Fitness.Exercise", b =>
@@ -107,47 +72,42 @@ namespace FitnessTracker.Server.Migrations
                     b.ToTable("Exercises");
                 });
 
-            modelBuilder.Entity("FitnessTracker.Shared.Domain.Fitness.TrainingDay", b =>
+            modelBuilder.Entity("FitnessTracker.Shared.Domain.NewFolder.ExerciseDTO", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("Trained")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("BodyPartId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("UserId")
+                    b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
-
-                    b.ToTable("TrainingDays");
-                });
-
-            modelBuilder.Entity("FitnessTracker.Shared.Domain.Fitness.TrainingExercise", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ExerciseId")
+                    b.Property<int>("RPE")
                         .HasColumnType("int");
 
-                    b.Property<int>("TrainingDayId")
+                    b.Property<int>("Reps")
                         .HasColumnType("int");
+
+                    b.Property<int>("Sets")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TrainingDTOId")
+                        .HasColumnType("int");
+
+                    b.Property<float>("Weight")
+                        .HasColumnType("real");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ExerciseId");
+                    b.HasIndex("TrainingDTOId");
 
-                    b.HasIndex("TrainingDayId");
-
-                    b.ToTable("TrainingExercise");
+                    b.ToTable("ExerciseDTO");
                 });
 
-            modelBuilder.Entity("FitnessTracker.Shared.Domain.Nutrition.Dto.FoodDto", b =>
+            modelBuilder.Entity("FitnessTracker.Shared.Domain.NewFolder.FoodDTO", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -163,8 +123,11 @@ namespace FitnessTracker.Server.Migrations
                     b.Property<float>("FatsPer100")
                         .HasColumnType("real");
 
-                    b.Property<string>("FoodTypeName")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("FoodTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("NutritionDTOId")
+                        .HasColumnType("int");
 
                     b.Property<float>("ProteinPer100")
                         .HasColumnType("real");
@@ -175,17 +138,50 @@ namespace FitnessTracker.Server.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TrainingDayDtoId")
-                        .HasColumnType("int");
-
                     b.Property<float>("WeightGrams")
                         .HasColumnType("real");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TrainingDayDtoId");
+                    b.HasIndex("NutritionDTOId");
 
-                    b.ToTable("FoodDto");
+                    b.ToTable("FoodDTO");
+                });
+
+            modelBuilder.Entity("FitnessTracker.Shared.Domain.NewFolder.NutritionDTO", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("MealTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("NutritionDto");
+                });
+
+            modelBuilder.Entity("FitnessTracker.Shared.Domain.NewFolder.TrainingDTO", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Trained")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TrainingDto");
                 });
 
             modelBuilder.Entity("FitnessTracker.Shared.Domain.Nutrition.Food", b =>
@@ -243,46 +239,6 @@ namespace FitnessTracker.Server.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("FoodTypes");
-                });
-
-            modelBuilder.Entity("FitnessTracker.Shared.Domain.Nutrition.Meal", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("FoodId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TrainingDayId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FoodId");
-
-                    b.HasIndex("TrainingDayId");
-
-                    b.ToTable("Meal");
-                });
-
-            modelBuilder.Entity("FitnessTracker.Shared.Domain.TrainingDayDto", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("Trained")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TrainingDaysDto");
                 });
 
             modelBuilder.Entity("FitnessTracker.Shared.Identity.FitnessAppUser", b =>
@@ -519,13 +475,6 @@ namespace FitnessTracker.Server.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("FitnessTracker.Shared.Domain.Fitness.Dto.ExerciseDto", b =>
-                {
-                    b.HasOne("FitnessTracker.Shared.Domain.TrainingDayDto", null)
-                        .WithMany("Exercise")
-                        .HasForeignKey("TrainingDayDtoId");
-                });
-
             modelBuilder.Entity("FitnessTracker.Shared.Domain.Fitness.Exercise", b =>
                 {
                     b.HasOne("FitnessTracker.Shared.Domain.Fitness.BodyPart", "BodyPart")
@@ -537,28 +486,18 @@ namespace FitnessTracker.Server.Migrations
                     b.Navigation("BodyPart");
                 });
 
-            modelBuilder.Entity("FitnessTracker.Shared.Domain.Fitness.TrainingExercise", b =>
+            modelBuilder.Entity("FitnessTracker.Shared.Domain.NewFolder.ExerciseDTO", b =>
                 {
-                    b.HasOne("FitnessTracker.Shared.Domain.Fitness.Exercise", "Exercise")
-                        .WithMany()
-                        .HasForeignKey("ExerciseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FitnessTracker.Shared.Domain.Fitness.TrainingDay", null)
-                        .WithMany("Trainings")
-                        .HasForeignKey("TrainingDayId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Exercise");
+                    b.HasOne("FitnessTracker.Shared.Domain.NewFolder.TrainingDTO", null)
+                        .WithMany("Exercise")
+                        .HasForeignKey("TrainingDTOId");
                 });
 
-            modelBuilder.Entity("FitnessTracker.Shared.Domain.Nutrition.Dto.FoodDto", b =>
+            modelBuilder.Entity("FitnessTracker.Shared.Domain.NewFolder.FoodDTO", b =>
                 {
-                    b.HasOne("FitnessTracker.Shared.Domain.TrainingDayDto", null)
+                    b.HasOne("FitnessTracker.Shared.Domain.NewFolder.NutritionDTO", null)
                         .WithMany("Foods")
-                        .HasForeignKey("TrainingDayDtoId");
+                        .HasForeignKey("NutritionDTOId");
                 });
 
             modelBuilder.Entity("FitnessTracker.Shared.Domain.Nutrition.Food", b =>
@@ -570,23 +509,6 @@ namespace FitnessTracker.Server.Migrations
                         .IsRequired();
 
                     b.Navigation("FoodType");
-                });
-
-            modelBuilder.Entity("FitnessTracker.Shared.Domain.Nutrition.Meal", b =>
-                {
-                    b.HasOne("FitnessTracker.Shared.Domain.Nutrition.Food", "Food")
-                        .WithMany()
-                        .HasForeignKey("FoodId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FitnessTracker.Shared.Domain.Fitness.TrainingDay", null)
-                        .WithMany("Meals")
-                        .HasForeignKey("TrainingDayId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Food");
                 });
 
             modelBuilder.Entity("FitnessTracker.Shared.Identity.FitnessAppUser", b =>
@@ -651,18 +573,14 @@ namespace FitnessTracker.Server.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("FitnessTracker.Shared.Domain.Fitness.TrainingDay", b =>
+            modelBuilder.Entity("FitnessTracker.Shared.Domain.NewFolder.NutritionDTO", b =>
                 {
-                    b.Navigation("Meals");
-
-                    b.Navigation("Trainings");
+                    b.Navigation("Foods");
                 });
 
-            modelBuilder.Entity("FitnessTracker.Shared.Domain.TrainingDayDto", b =>
+            modelBuilder.Entity("FitnessTracker.Shared.Domain.NewFolder.TrainingDTO", b =>
                 {
                     b.Navigation("Exercise");
-
-                    b.Navigation("Foods");
                 });
 #pragma warning restore 612, 618
         }

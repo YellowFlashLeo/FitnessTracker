@@ -7,7 +7,7 @@ namespace FitnessTracker.Client.ClientServices.MonthlyStatisticsService
 {
     public interface IMonthlyStatisticsService
     {
-        Task<List<TrainingDayDto>> GetAllTrainingDays();
+      //  Task<List<TrainingDayDto>> GetAllTrainingDays();
         Task<StatResults> GetStatisticsBasedOnLast30Days();
     }
 }

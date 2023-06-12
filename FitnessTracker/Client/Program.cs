@@ -28,7 +28,7 @@ namespace FitnessTracker.Client
             builder.Services.AddScoped<IBodyPartService, BodyPartService>();
             builder.Services.AddScoped<IMonthlyStatisticsService, MonthlyStatisticsService>();
             builder.Services.AddScoped<INutritionService, NutritionService>();
-            builder.Services.AddScoped<ISaveToServerService, SaveToServerService>();
+           // builder.Services.AddScoped<ISaveToServerService, SaveToServerService>();
             builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
             builder.Services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
             builder.Services.AddScoped<ToastService>();

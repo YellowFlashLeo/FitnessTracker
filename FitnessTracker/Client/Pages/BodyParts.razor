@@ -1,4 +1,4 @@
-﻿@page "/bodyPart/{bodyPartUrl}"
+﻿@*@page "/bodyPart/{bodyPartUrl}"
 @inject IBodyPartService BodyPartService
 @inject TrainingDayState TrainingDayState
 @inject NavigationManager NavigationManager
@@ -67,3 +67,4 @@
         exercises = await BodyPartService.GetExercises(BodyPartUrl);
     }
 }
+*@

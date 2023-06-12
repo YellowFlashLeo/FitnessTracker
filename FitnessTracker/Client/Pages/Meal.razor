@@ -1,4 +1,4 @@
-﻿@page "/foodType/{foodTypeUrl}"
+﻿@*@page "/foodType/{foodTypeUrl}"
 @inject INutritionService NutritionService
 @inject TrainingDayState TrainingDayState
 @inject NavigationManager NavigationManager
@@ -67,3 +67,4 @@
         foods = await NutritionService.GetFoods(FoodTypeUrl);
     }
 }
+*@

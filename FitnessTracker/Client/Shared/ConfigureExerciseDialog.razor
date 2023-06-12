@@ -1,4 +1,4 @@
-﻿<div class="dialog-container">
+﻿@*<div class="dialog-container">
     <div class="dialog">
         <div class="dialog-title">
             <h2>@TrainingExercise.Exercise.Name</h2>
@@ -49,7 +49,8 @@
 </div>
 
 @code {
-    [Parameter] public TrainingExercise TrainingExercise { get; set; }
+   // [Parameter] public TrainingExercise TrainingExercise { get; set; }
     [Parameter] public EventCallback OnCancel { get; set; }
     [Parameter] public EventCallback OnConfirm { get; set; }
 }
+*@

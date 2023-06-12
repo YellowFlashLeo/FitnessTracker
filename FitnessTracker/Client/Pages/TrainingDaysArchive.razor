@@ -1,4 +1,4 @@
-﻿@page "/trainingDaysArchive"
+﻿@*@page "/trainingDaysArchive"
 @using FitnessTracker.Shared.Domain
 @inject IMonthlyStatisticsService MonthlyStatisticsService
 
@@ -58,4 +58,4 @@
     {
         trainingDays = await MonthlyStatisticsService.GetAllTrainingDays();
     }
-}
+}*@

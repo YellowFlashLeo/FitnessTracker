@@ -22,12 +22,12 @@ namespace FitnessTracker.Client.ClientServices.MonthlyStatisticsService
             var result = await _httpClient.GetFromJsonAsync<StatResults>("api/MonthlyStatistics");
             return result;
         }
-        public async Task<List<TrainingDayDto>> GetAllTrainingDays()
-        {
-            var result = await _httpClient.GetFromJsonAsync<ServiceResponse<List<TrainingDayDto>>>("api/TrainingDay/");
+        //public async Task<List<TrainingDayDto>> GetAllTrainingDays()
+        //{
+        //    var result = await _httpClient.GetFromJsonAsync<ServiceResponse<List<TrainingDayDto>>>("api/TrainingDay/");
 
-            return result?.Data;
-        }
+        //    return result?.Data;
+        //}
 
     }
 }
