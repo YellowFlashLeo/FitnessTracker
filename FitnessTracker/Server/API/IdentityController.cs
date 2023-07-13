@@ -29,7 +29,7 @@ namespace FitnessTracker.Server.API
         public record UserRegistrationModel(string FirstName, string LastName, string EmailAddress, string Password, string Nationality, int Age, int GenderId);
 
         [HttpPost]
-        [Route("/Register")]
+        [Route("Register")]
         [AllowAnonymous]
         public async Task<IActionResult> Register(UserRegistrationModel userToBeRegistered)
         {
@@ -57,11 +57,10 @@ namespace FitnessTracker.Server.API
                     {
                         return Ok();
                     }
-                    else
-                    {
-                        return BadRequest(result);
-                    }
+
+                    return BadRequest(result.ToString());
                 }
+                return BadRequest("Such user already exists!");
             }
             return BadRequest();
         }
@@ -73,16 +72,20 @@ namespace FitnessTracker.Server.API
             return Ok(result);
         }
 
-        [Route("/token")]
+        [Route("token")]
         [HttpPost]
         public async Task<ActionResult> Create([FromBody] AuthenticatingUser model)
         {
-            if (await _identityService.doCredentialsMatch(model.Email, model.Password))
+            var result = await _identityService.doCredentialsMatch(model.Email, model.Password);
+            if (result.Success)
             {
-                return Ok(await _identityService.GenerateToken(model.Email));
+                return Ok();
+                // return Ok(await _identityService.GenerateToken(model.Email));
             }
-
-            return BadRequest();
+            else
+            {
+                return BadRequest(result.Message);
+            }
         }
     }
 }

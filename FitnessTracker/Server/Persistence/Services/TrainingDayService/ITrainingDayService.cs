@@ -1,20 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using FitnessTracker.Shared;
-using FitnessTracker.Shared.Domain;
-using FitnessTracker.Shared.Domain.Fitness;
-using FitnessTracker.Shared.Domain.NewFolder;
+using FitnessTracker.Shared.Domain.Fitness.Dto;
+using FitnessTracker.Shared.Domain.Nutrition.Dto;
+using FitnessTracker.Shared.Statistics;
 
 namespace FitnessTracker.Server.Persistence.Services.TrainingDayService
 {
     public interface ITrainingDayService
     {
-        //Task<ServiceResponse<List<TrainingDayDto>>> GetAllTrainingDays(string userId);
-        //Task<ServiceResponse<TrainingDayDto>> GetTrainingDay(string userId, int trainingDayId);
-        //Task<ServiceResponse<int>> SaveTrainingDay(TrainingDay day, string userId);
         Task SaveTraining(TrainingDTO trainingDay,string userId);
         Task SaveMeal(NutritionDTO meal,string userId);
-        Task<ServiceResponse<List<TrainingDTO>>> GetAllTrainings(string userId);
-        Task<ServiceResponse<List<NutritionDTO>>> GetAllMeals(string userId);
+        Task<ServiceResponse<List<SortedByDay>>> GetDayTrainingsStats(string userId);
+        Task<ServiceResponse<List<SortedByDayNutrients>>> GetDayNutrientsStats(string userId);
     }
 }

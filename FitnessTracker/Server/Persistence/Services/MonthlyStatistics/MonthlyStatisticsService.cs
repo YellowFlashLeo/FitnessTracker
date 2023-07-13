@@ -3,7 +3,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using FitnessTracker.Server.Persistence.DataBase;
 using FitnessTracker.Shared;
-using FitnessTracker.Shared.Domain.NewFolder;
+using FitnessTracker.Shared.Domain.Fitness.Dto;
+using FitnessTracker.Shared.Domain.Nutrition.Dto;
 using FitnessTracker.Shared.Statistics;
 using Microsoft.EntityFrameworkCore;
 

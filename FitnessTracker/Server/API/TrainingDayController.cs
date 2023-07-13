@@ -4,7 +4,9 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using FitnessTracker.Server.Persistence.Services.TrainingDayService;
 using FitnessTracker.Shared;
-using FitnessTracker.Shared.Domain.NewFolder;
+using FitnessTracker.Shared.Domain.Fitness.Dto;
+using FitnessTracker.Shared.Domain.Nutrition.Dto;
+using FitnessTracker.Shared.Statistics;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FitnessTracker.Server.API
@@ -22,16 +24,16 @@ namespace FitnessTracker.Server.API
 
 
         [HttpGet("allTrainings")]
-        public async Task<ActionResult<ServiceResponse<List<TrainingDTO>>>> GetTrainings()
+        public async Task<ActionResult<ServiceResponse<List<SortedByDay>>>> GetTrainings()
         {
-            var result = await _trainingDayService.GetAllTrainings(GetCurrentUserId());
+            var result = await _trainingDayService.GetDayTrainingsStats(GetCurrentUserId());
             return Ok(result);
         }
 
         [HttpGet("allMeals")]
         public async Task<ActionResult<ServiceResponse<List<NutritionDTO>>>> GetMeals()
         {
-            var result = await _trainingDayService.GetAllMeals(GetCurrentUserId());
+            var result = await _trainingDayService.GetDayNutrientsStats(GetCurrentUserId());
             return Ok(result);
         }
 

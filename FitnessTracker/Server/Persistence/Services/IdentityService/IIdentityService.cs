@@ -8,7 +8,7 @@ namespace FitnessTracker.Server.Persistence.Services.IdentityService
 {
     public interface IIdentityService
     {
-        Task<bool> doCredentialsMatch(string userName, string password);
+        Task<ServiceResponse<bool>> doCredentialsMatch(string userName, string password);
         Task<ServiceResponse<AuthenticatingUser>> GetUserDetails(string email);
         Task<dynamic> GenerateToken(string username);
         Task<ServiceResponse<List<Gender>>> GetGenders();

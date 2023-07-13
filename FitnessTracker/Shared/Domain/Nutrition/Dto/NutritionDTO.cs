@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace FitnessTracker.Shared.Domain.NewFolder
+namespace FitnessTracker.Shared.Domain.Nutrition.Dto
 {
     public class NutritionDTO
     {

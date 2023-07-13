@@ -26,12 +26,36 @@ namespace FitnessTracker.Server.Persistence.Services.IdentityService
             _dbContext = dbContext;
         }
 
-        public async Task<bool> doCredentialsMatch(string userName, string password)
+        public async Task<ServiceResponse<bool>> doCredentialsMatch(string userName, string password)
         {
             var user = await _userManager.FindByEmailAsync(userName);
             if (user.Equals(null))
-                return false;
-            return user.Password.Equals(password);
+            {
+                return new ServiceResponse<bool>()
+                {
+                    Data = false,
+                    Message = "You are not registered",
+                    Success = false
+                };
+            }
+            
+            var result = user.Password.Equals(password);
+            if (!result)
+            {
+                return new ServiceResponse<bool>()
+                {
+                    Data = false,
+                    Message = "Password does not match",
+                    Success = false
+                };
+            }
+
+            return new ServiceResponse<bool>()
+            {
+                Data = true,
+                Message = "Welcome back!",
+                Success = true
+            };
         }
 
         public async Task<ServiceResponse<AuthenticatingUser>> GetUserDetails(string email)

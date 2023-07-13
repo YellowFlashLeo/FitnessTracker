@@ -2,7 +2,8 @@
 using System.Linq;
 using System.Threading.Tasks;
 using FitnessTracker.Server.Persistence.DataBase;
-using FitnessTracker.Shared;
+using FitnessTracker.Shared.Domain.Fitness.Dto;
+using FitnessTracker.Shared.Domain.Nutrition.Dto;
 using MailKit.Net.Smtp;
 using MailKit.Security;
 using Microsoft.Extensions.Configuration;
@@ -19,17 +20,17 @@ namespace FitnessTracker.Server.Persistence.Services.EmailService
             _dbContext = dbContext;
             _config = config;
         }
-        public async Task<ServiceResponse<bool>> SendEmail(EmailDto emailBody)
+        public async Task SendEmailAboutRecentTraining(TrainingDTO training)
         {
             var email = new MimeMessage();
       
-            var credentials = MakeEmailBasedOnProvider(emailBody.To);
+            var credentials = MakeEmailBasedOnProvider(training.UserId);
 
             email.From.Add(MailboxAddress.Parse(credentials[1]));
-            email.To.Add(MailboxAddress.Parse(emailBody.To));
-            email.Subject = emailBody.Subject;
+            email.To.Add(MailboxAddress.Parse(training.UserId));
+            email.Subject = "Progress so far!";
 
-            email.Body =  EmailBodyGenerator(emailBody);
+            email.Body = RecentTrainingDescriptor(training);
 
             using var smtp = new SmtpClient();
             smtp.ServerCertificateValidationCallback = (s, c, h, e) => true;
@@ -38,10 +39,27 @@ namespace FitnessTracker.Server.Persistence.Services.EmailService
             await smtp.SendAsync(email);
 
             await smtp.DisconnectAsync(true);
-            return new ServiceResponse<bool>
-            {
-               Success = true
-            };
+        }
+
+        public async Task SendEmailAboutNutrition(NutritionDTO food)
+        {
+            var email = new MimeMessage();
+
+            var credentials = MakeEmailBasedOnProvider(food.UserId);
+
+            email.From.Add(MailboxAddress.Parse(credentials[1]));
+            email.To.Add(MailboxAddress.Parse(food.UserId));
+            email.Subject = "Progress so far!";
+
+            email.Body = RecentMealDescriptor(food);
+
+            using var smtp = new SmtpClient();
+            smtp.ServerCertificateValidationCallback = (s, c, h, e) => true;
+            await smtp.ConnectAsync(credentials[0], 587, SecureSocketOptions.StartTls);
+            await smtp.AuthenticateAsync(credentials[1], credentials[2]);
+            await smtp.SendAsync(email);
+
+            await smtp.DisconnectAsync(true);
         }
 
         private List<string> MakeEmailBasedOnProvider(string emailBody)
@@ -70,23 +88,10 @@ namespace FitnessTracker.Server.Persistence.Services.EmailService
 
             return credentials;
         }
-        private MimeEntity EmailBodyGenerator(EmailDto emailContent)
+        private MimeEntity RecentTrainingDescriptor(TrainingDTO training)
         { ;
             var bodyBuilder = new BodyBuilder();
-            var exercises = emailContent.Body.Exercise;
-            var nutrients = emailContent.Food.Foods;
-            if (nutrients.Any())
-            {
-                bodyBuilder.HtmlBody += "<h3>Today you consumed</h3>";
-
-                bodyBuilder.HtmlBody += "<span>Nutrition summary</span>";
-                bodyBuilder.HtmlBody += "<p>" + "<ul>" + "<li>" + "<strong>Overall Calories per Day: </strong>" + $"{nutrients.Sum(n=>n.CalculateCalories())}" + "</li>" +
-                                        "<li>" + "<strong>Overall Carbohydrates per Day: </strong>" + $"{nutrients.Sum(n => n.CalculateCarbs())}" +
-                                        "<li>" + "<strong>Overall Protein per Day: </strong>" + $"{nutrients.Sum(n => n.CalculateProtein())}" +
-                                        "<li>" + "<strong>Overall Fats per Day: </strong>" + $"{nutrients.Sum(n => n.CalculateFats())}" +
-                                        "</ul>" +
-                                        "</p>";
-            }
+            var exercises = training.Exercise;
 
             if (exercises.Any())
             {
@@ -112,7 +117,26 @@ namespace FitnessTracker.Server.Persistence.Services.EmailService
             }
 
             return bodyBuilder.ToMessageBody();
+        }
 
+        private MimeEntity RecentMealDescriptor(NutritionDTO food)
+        {
+            var bodyBuilder = new BodyBuilder();
+            var nutrients = food.Foods;
+            if (nutrients.Any())
+            {
+                bodyBuilder.HtmlBody += "<h3>Today you consumed</h3>";
+
+                bodyBuilder.HtmlBody += "<span>Nutrition summary</span>";
+                bodyBuilder.HtmlBody += "<p>" + "<ul>" + "<li>" + "<strong>Overall Calories per Day: </strong>" + $"{nutrients.Sum(n => n.CalculateCalories())}" + "</li>" +
+                                        "<li>" + "<strong>Overall Carbohydrates per Day: </strong>" + $"{nutrients.Sum(n => n.CalculateCarbs())}" +
+                                        "<li>" + "<strong>Overall Protein per Day: </strong>" + $"{nutrients.Sum(n => n.CalculateProtein())}" +
+                                        "<li>" + "<strong>Overall Fats per Day: </strong>" + $"{nutrients.Sum(n => n.CalculateFats())}" +
+                                        "</ul>" +
+                                        "</p>";
+            }
+
+            return bodyBuilder.ToMessageBody();
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace FitnessTracker.Shared.Domain.NewFolder
+namespace FitnessTracker.Shared.Domain.Fitness.Dto
 {
     public class ExerciseDTO
     {

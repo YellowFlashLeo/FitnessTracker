@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
-namespace FitnessTracker.Shared.Domain.NewFolder
+namespace FitnessTracker.Shared.Domain.Fitness.Dto
 {
     public class TrainingDTO
     {

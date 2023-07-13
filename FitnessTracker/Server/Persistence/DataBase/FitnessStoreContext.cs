@@ -1,6 +1,7 @@
 ﻿using FitnessTracker.Shared.Domain.Fitness;
-using FitnessTracker.Shared.Domain.NewFolder;
+using FitnessTracker.Shared.Domain.Fitness.Dto;
 using FitnessTracker.Shared.Domain.Nutrition;
+using FitnessTracker.Shared.Domain.Nutrition.Dto;
 using FitnessTracker.Shared.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
