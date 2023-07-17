@@ -28,7 +28,6 @@ namespace FitnessTracker.Server.Persistence.Services.TrainingDayService
 
         public async Task<ServiceResponse<List<SortedByDay>>> GetDayTrainingsStats(string userId)
         {
-            userId = "leoelo";
             var trainings = await _dbContext.TrainingDto.Where(d => d.UserId.Equals(userId))
                 .Include(d=>d.Exercise)
                 .OrderByDescending(d=>d.Trained)
@@ -86,7 +85,6 @@ namespace FitnessTracker.Server.Persistence.Services.TrainingDayService
 
         public async Task<ServiceResponse<List<SortedByDayNutrients>>> GetDayNutrientsStats(string userId)
         {
-            userId = "leoelo";
             var meals = await _dbContext.NutritionDto.Where(d => d.UserId.Equals(userId))
                 .Include(d => d.Foods)
                 .OrderByDescending(d => d.MealTime)
@@ -141,15 +139,11 @@ namespace FitnessTracker.Server.Persistence.Services.TrainingDayService
 
 
 
-        public async Task SaveTraining(TrainingDTO trainingDay, string userId)
+        public async Task SaveTraining(TrainingDTO trainingDay)
         {
             trainingDay.Trained = DateTime.Now;
-            trainingDay.UserId = "leoelo";
-           // trainingDay.UserId = userId;
 
-            
             _dbContext.TrainingDto.Add(trainingDay);
-
             try
             {
                 await _dbContext.SaveChangesAsync();
@@ -161,13 +155,11 @@ namespace FitnessTracker.Server.Persistence.Services.TrainingDayService
             }
         }
 
-        public async Task SaveMeal(NutritionDTO meal, string userId)
+        public async Task SaveMeal(NutritionDTO meal)
         {
             meal.MealTime = DateTime.Now;
-            meal.UserId = "leoelo";
 
             _dbContext.NutritionDto.Add(meal);
-
             try
             {
                 await _dbContext.SaveChangesAsync();

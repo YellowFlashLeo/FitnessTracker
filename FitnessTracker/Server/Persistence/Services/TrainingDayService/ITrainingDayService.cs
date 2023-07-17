@@ -9,8 +9,8 @@ namespace FitnessTracker.Server.Persistence.Services.TrainingDayService
 {
     public interface ITrainingDayService
     {
-        Task SaveTraining(TrainingDTO trainingDay,string userId);
-        Task SaveMeal(NutritionDTO meal,string userId);
+        Task SaveTraining(TrainingDTO trainingDay);
+        Task SaveMeal(NutritionDTO meal);
         Task<ServiceResponse<List<SortedByDay>>> GetDayTrainingsStats(string userId);
         Task<ServiceResponse<List<SortedByDayNutrients>>> GetDayNutrientsStats(string userId);
     }

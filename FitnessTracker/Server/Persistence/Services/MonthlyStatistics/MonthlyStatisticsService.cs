@@ -21,7 +21,6 @@ namespace FitnessTracker.Server.Persistence.Services.MonthlyStatistics
 
         public async Task<ServiceResponse<StatResults>> GetMonthlyStats(string userId)
         {
-            userId = "leoelo";
             var trainingsPerMonth = await GetLast30DaysWorkouts(userId);
             var mealsPerMonth = await GetLast30DaysMeals(userId);
 
@@ -43,10 +42,10 @@ namespace FitnessTracker.Server.Persistence.Services.MonthlyStatistics
                 ? 0
                 : Rounder.RoundUp(GetAverageAmountOfRepsPerTraining(trainingsPerMonth), 2);
             stats.AverageAmountOfSetsPerTraining = trainingsPerMonth.Count.Equals(0) ? 0 : Rounder.RoundUp(GetAverageAmountOfSetsPerTraining(trainingsPerMonth), 2);
-            stats.AverageAmountOfCaloriesPerDay = trainingsPerMonth.Count.Equals(0) ? 0 : Rounder.RoundUpForDouble(GetAverageAmountOfCaloriesPerDay(mealsPerMonth), 2);
-            stats.AverageAmountOfProteinsPerDay = trainingsPerMonth.Count.Equals(0) ? 0 : Rounder.RoundUpForDouble(GetAverageAmountOfProteinsPerDay(mealsPerMonth), 2);
-            stats.AverageAmountOfFatsPerDay = trainingsPerMonth.Count.Equals(0) ? 0 : Rounder.RoundUpForDouble(GetAverageAmountOfFatsPerDay(mealsPerMonth), 2);
-            stats.AverageAmountOfCarbsPerDay = trainingsPerMonth.Count.Equals(0) ? 0 : Rounder.RoundUpForDouble(GetAverageAmountOfCarbsPerDay(mealsPerMonth), 2);
+            stats.AverageAmountOfCaloriesPerDay = mealsPerMonth.Count.Equals(0) ? 0 : Rounder.RoundUpForDouble(GetAverageAmountOfCaloriesPerDay(mealsPerMonth), 2);
+            stats.AverageAmountOfProteinsPerDay = mealsPerMonth.Count.Equals(0) ? 0 : Rounder.RoundUpForDouble(GetAverageAmountOfProteinsPerDay(mealsPerMonth), 2);
+            stats.AverageAmountOfFatsPerDay = mealsPerMonth.Count.Equals(0) ? 0 : Rounder.RoundUpForDouble(GetAverageAmountOfFatsPerDay(mealsPerMonth), 2);
+            stats.AverageAmountOfCarbsPerDay = mealsPerMonth.Count.Equals(0) ? 0 : Rounder.RoundUpForDouble(GetAverageAmountOfCarbsPerDay(mealsPerMonth), 2);
 
             return new ServiceResponse<StatResults>()
             {
