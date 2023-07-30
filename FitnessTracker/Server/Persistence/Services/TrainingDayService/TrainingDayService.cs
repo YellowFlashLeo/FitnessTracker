@@ -139,7 +139,7 @@ namespace FitnessTracker.Server.Persistence.Services.TrainingDayService
 
 
 
-        public async Task SaveTraining(TrainingDTO trainingDay)
+        public async Task<ServiceResponse<bool>> SaveTraining(TrainingDTO trainingDay)
         {
             trainingDay.Trained = DateTime.Now;
 
@@ -148,14 +148,25 @@ namespace FitnessTracker.Server.Persistence.Services.TrainingDayService
             {
                 await _dbContext.SaveChangesAsync();
                 await _emailService.SendEmailAboutRecentTraining(trainingDay);
+                return new ServiceResponse<bool>()
+                {
+                    Data = true,
+                    Message = "Training was saved successfully",
+                    Success = true
+                };
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                return new ServiceResponse<bool>()
+                {
+                    Data = false,
+                    Message = ex.Message,
+                    Success = false
+                };
             }
         }
 
-        public async Task SaveMeal(NutritionDTO meal)
+        public async Task<ServiceResponse<bool>> SaveMeal(NutritionDTO meal)
         {
             meal.MealTime = DateTime.Now;
 
@@ -164,10 +175,21 @@ namespace FitnessTracker.Server.Persistence.Services.TrainingDayService
             {
                 await _dbContext.SaveChangesAsync();
                 await _emailService.SendEmailAboutNutrition(meal);
+                return new ServiceResponse<bool>()
+                {
+                    Data = true,
+                    Message = "Training was saved successfully",
+                    Success = true
+                };
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                return new ServiceResponse<bool>()
+                {
+                    Data = false,
+                    Message = ex.Message,
+                    Success = false
+                };
             }
         }
     }

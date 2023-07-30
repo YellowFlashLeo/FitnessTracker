@@ -111,11 +111,11 @@ namespace FitnessTracker.Server.Persistence.Services.MonthlyStatistics
             return result;
         }
 
-        private double GetAverageAmountOfCaloriesPerDay(List<NutritionDTO> trainingsPerMonth)
+        private double GetAverageAmountOfCaloriesPerDay(List<NutritionDTO> meals)
         {
-            var amountOfTrainings = trainingsPerMonth.Count;
-            var totalAmountOfCaloriesPerMonth = trainingsPerMonth.Sum(training => training.GetMealsTotalCalories());
-            var result = totalAmountOfCaloriesPerMonth / amountOfTrainings;
+            var amountOfMeals = meals.Count;
+            var totalAmountOfCaloriesPerMonth = meals.Sum(training => training.GetMealsTotalCalories());
+            var result = totalAmountOfCaloriesPerMonth / amountOfMeals;
             return result;
         }
 

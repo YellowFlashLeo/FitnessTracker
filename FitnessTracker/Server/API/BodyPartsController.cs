@@ -33,7 +33,7 @@ namespace FitnessTracker.Server.API
         }
 
         [HttpGet("bodyPart/{bodyPartUrl}")]
-        public async Task<ActionResult<ServiceResponse<List<BodyPart>>>> GetExercisesByBodyPart(string bodyPartUrl)
+        public async Task<ActionResult<ServiceResponse<List<Exercise>>>> GetExercisesByBodyPart(string bodyPartUrl)
         {
             var result = await _bodyPartService.GetExercises(bodyPartUrl);
             return Ok(result);
